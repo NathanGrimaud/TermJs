@@ -19033,103 +19033,122 @@ module.exports = require('./lib/React');
 },{"./lib/React":53}],159:[function(require,module,exports){
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ReactDOM = require("react-dom");
+var React = require("react");
+var CONSOLE_COMPONENT = require("./components/ConsoleComponent.jsx");
+var ConsoleClass = require("./model/ConsoleClass.js").ConsoleClass;
+
+var Main = function Main() {
+  _classCallCheck(this, Main);
+
+  var ConsoleInstance = new ConsoleClass("ConsoleInput");
+  this.console = ConsoleInstance;
+};
+
+window.onload = function () {
+  ReactDOM.render(React.createElement(CONSOLE_COMPONENT, null), document.getElementById("appcontainer"));
+  new Main();
+};
+
+},{"./components/ConsoleComponent.jsx":160,"./model/ConsoleClass.js":162,"react":158,"react-dom":29}],160:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+var ConsoleOutputComponent = require("./ConsoleOutputComponent.jsx");
+
+module.exports = React.createClass({
+  displayName: "ConsoleComponent",
+  render: function render() {
+    return React.createElement(
+      "div",
+      { id: "Console", className: "Console" },
+      React.createElement(ConsoleOutputComponent, { text: "Bienvenue dans le terminal" }),
+      React.createElement("input", { id: "ConsoleInput", type: "text" })
+    );
+  }
+});
+
+},{"./ConsoleOutputComponent.jsx":161,"react":158}],161:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+  displayName: "ConsoleOutputComponent",
+  render: function render() {
+    return React.createElement(
+      "div",
+      { className: "ConsoleOutput" },
+      this.props.text
+    );
+  }
+});
+
+},{"react":158}],162:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ReactDOM = require('react-dom');
-var React = require('react');
-var CONSOLE_COMPONENT = require('./components/ConsoleComponent.jsx');
+var ReactDOM = require("react-dom");
+var React = require("react");
+var ConsoleOutputComponent = require("../components/ConsoleOutputComponent.jsx");
 
-var Console = function () {
-  function Console(input, focusCallback, blurCallback) {
-    _classCallCheck(this, Console);
+var ConsoleClass = exports.ConsoleClass = function () {
+  function ConsoleClass(ConsoleInputId) {
+    _classCallCheck(this, ConsoleClass);
 
-    this._input = input;
-    this._focusCallback = focusCallback;
-    this._blurCallback = blurCallback;
-    console.log("Console created");
-    console.log(this._focusCallback(), this._blurCallback());
+    console.log("creating new instance of ConsoleClass");
+    this._consoleInput = document.getElementById(ConsoleInputId);
+    this._history = [];
+    this.loadEvent();
   }
 
-  _createClass(Console, [{
-    key: 'init',
-    value: function init() {
+  _createClass(ConsoleClass, [{
+    key: "loadEvent",
+    value: function loadEvent() {
       var _this = this;
 
-      console.log("init", this._input);
-      this._input.addEventListener("onfocus", function () {
-        return _this._focusCallback();
+      this._consoleInput.addEventListener("keydown", function (keyEvent) {
+        if (keyEvent.keyIdentifier === "Enter" && _this._consoleInput.value !== "") _this.onEnterPress();
       });
-      /*this._input.addEventListener("onblur", () => {
-        this._input.removeEventListener("focus", ()=>this._focusHandler());
-        this._blurCallback();
+    }
+  }, {
+    key: "onEnterPress",
+    value: function onEnterPress() {
+      var fullCommand = this._consoleInput.value;
+      var ConsoleInput = document.getElementById("Console");
+      this._history.push(fullCommand);
+      console.log(fullCommand);
+      var output = document.createElement("div");
+      ReactDOM.render(React.createElement(ConsoleOutputComponent, { text: fullCommand }), output);
+      console.log(output);
+      ConsoleInput.insertBefore(output, ConsoleInput.childNodes[ConsoleInput.childNodes.length - 1]);
+      //let commandArray = fullCommand.split(" ").filter((elem,i)=>i!=0);
+
+      //  console.log(commandArray);
+
+      /*
+        demander pourquoi marche quand écrit dans la console,
+        mais pas de la code.
+        ex : avec dir
+      */
+      /*  require("child_process").exec(fullCommand, (error, stdout, stdin) => {
+          console.log("stdout",stdout);
+          console.log("error",error);
+          console.log("stdin",stdin);
       });*/
     }
   }]);
 
-  return Console;
+  return ConsoleClass;
 }();
 
-window.onload = function () {
-  ReactDOM.render(React.createElement(CONSOLE_COMPONENT, null), document.getElementById('appcontainer'));
-  var c_input = document.getElementById("console_input");
-  var console_instance = new Console(c_input, function () {
-    return console.log("focus is on");
-  }, function () {
-    return console.log("focus is of");
-  });
-  console_instance.init();
-};
-
-},{"./components/ConsoleComponent.jsx":160,"react":158,"react-dom":29}],160:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var Link = require('./LinkComponent.jsx');
-module.exports = React.createClass({
-  displayName: 'Console',
-  render: function render() {
-    return React.createElement(
-      'div',
-      { className: 'Console' },
-      React.createElement('div', { className: 'console' }),
-      React.createElement(
-        'div',
-        { id: 'console_input' },
-        React.createElement('input', { id: 'console_input', type: 'text', value: '' })
-      )
-    );
-  }
-});
-
-},{"./LinkComponent.jsx":161,"react":158}],161:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-
-module.exports = React.createClass({
-  displayName: 'Link',
-  render: function render() {
-    return React.createElement(
-      'div',
-      { className: 'link' },
-      React.createElement(
-        'h3',
-        null,
-        React.createElement(
-          'a',
-          { href: this.props.url },
-          this.props.title
-        )
-      ),
-      React.createElement(
-        'p',
-        null,
-        this.props.description
-      )
-    );
-  }
-});
-
-},{"react":158}]},{},[159]);
+},{"../components/ConsoleOutputComponent.jsx":161,"react":158,"react-dom":29}]},{},[159]);

@@ -1,16 +1,14 @@
-const React = require('react');
-const Link = require('./LinkComponent.jsx');
+"use strict";
+const React = require("react");
+const ConsoleOutputComponent = require("./ConsoleOutputComponent.jsx");
+
 module.exports = React.createClass({
-  displayName: 'Console',
+  displayName: "ConsoleComponent",
   render: function() {
     return (
-      <div className="Console">
-        <div className="console">
-
-        </div>
-        <div id="console_input" >
-          <input id="console_input" type="text" value=""></input>
-        </div>
+      <div id="Console" className="Console">
+        <ConsoleOutputComponent text={"Bienvenue dans le terminal"} />
+        <input id="ConsoleInput" type="text"/>
       </div>
     );
   }
