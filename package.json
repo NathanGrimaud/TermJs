@@ -5,21 +5,26 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify src/app.js -o dist/bundle.js -t [ babelify --presets [ es2015 react ] ]"
+    "build": "babel src -d dist && lessc src/style/base.less dist/style/app.css"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.6.5",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.2.0",
-    "browserify": "^13.0.0",
-    "electron-prebuilt": "^0.36.9",
+    "electron-prebuilt": "^0.36.10",
+    "grunt-babel": "^6.0.0",
+    "less": "^2.6.1",
     "mobx-react": "^3.0.0",
     "watchify": "^3.7.0"
   },
   "dependencies": {
     "angular": "^1.5.0",
-    "jquery": "^2.2.1"
+    "cross-spawn": "^2.1.5",
+    "highlight.js": "^9.2.0",
+    "jquery": "^2.2.1",
+    "react-highlight": "^0.7.0"
   }
 }
