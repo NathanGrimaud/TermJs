@@ -55,7 +55,7 @@
     "validthis"     : false,
 
     "browser"       : true,
-    "browserify"    : true,
+    "browserify"    : false,
     "couch"         : false,
     "devel"         : true,
     "dojo"          : false,

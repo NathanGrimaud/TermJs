@@ -1,13 +1,15 @@
 "use strict";
 const React = require("react");
-const SNIPPET = require("./Snippet");
-let data = require("json!../private/snippets.json");
+
+const SNIPPET = require("./SnippetComponent");
+let data = require("../private/snippets.json");
 
 module.exports = React.createClass({
-  displayName: "SnippetsContainer",
+  displayName: "SnippetsContainerComponent",
   render: function() {
-    return ( < div className = "snippets"> {
-      //data.snippets.forEach((val) =><SNIPPET name={val.name} command={val.command}/>)
-    } < /div>);
+    return (
+      <div className = "snippets"> {
+          data.snippets.map((val) => <SNIPPET name={val.name} command={val.command}/> )
+    } </div>);
   }
 });
