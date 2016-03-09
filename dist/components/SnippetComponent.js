@@ -7,7 +7,7 @@ module.exports = React.createClass({
     console.log("props", this.props);
     return React.createElement(
       "div",
-      { className: "snippet" },
+      { className: "snippet", key: "{this.props.key}" },
       React.createElement(
         "span",
         null,

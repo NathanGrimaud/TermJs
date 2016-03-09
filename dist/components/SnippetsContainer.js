@@ -13,7 +13,7 @@ module.exports = React.createClass({
       { className: "snippets" },
       " ",
       data.snippets.map(function (val) {
-        return React.createElement(SNIPPET, { name: val.name, command: val.command });
+        return React.createElement(SNIPPET, { key: val.key, name: val.name, command: val.command });
       }),
       " "
     );

@@ -9,7 +9,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div className = "snippets"> {
-          data.snippets.map((val) => <SNIPPET name={val.name} command={val.command}/> )
+        data.snippets.map((val) => <SNIPPET key={val.key} name={val.name} command={val.command}/> )
     } </div>);
   }
 });

@@ -1,8 +1,12 @@
 "use strict";
-const ReactDOM = require("react-dom");
-const React = require("react");
+/*
+  const ReactDOM = require("react-dom");
+  const React = require("react");
 
-const SNIPPETS_CONTAINER = require("./components/SnippetsContainer.js");
+
+  regarder le content encoding sur les headers
+*/
+
 const Terminal = require("./model/Terminal.js").Terminal;
 const SnippetClass = require("./model/Snippet.js").SnippetClass;
 
@@ -13,10 +17,8 @@ class Main{
     this.terminal = new Terminal("Console","ConsoleInput",this.appContainer);
   }
   loadSnippets(){
-    this.snippets = new SnippetClass();
-    this.snippetsContainer = document.createElement("div");
-    ReactDOM.render( <SNIPPETS_CONTAINER />, this.snippetsContainer);
-    this.appContainer.appendChild(this.snippetsContainer);
+    this.snippets = new SnippetClass(this.appContainer);
+
   }
 }
 

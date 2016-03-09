@@ -4,8 +4,8 @@ const ReactDOM = require("react-dom");
 const React = require("react");
 const CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
 const ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
-
 const spawn = require("cross-spawn");
+var exec = require("child_process").exec;
 
 export class Terminal {
 
@@ -38,7 +38,8 @@ export class Terminal {
   }
   createOutput(data) {
     let output = document.createElement("div");
-    ReactDOM.render( < ConsoleOutputComponent text = { data.toString()}/>, output);
+    console.log(data.toString("utf8"));
+    ReactDOM.render( < ConsoleOutputComponent text = { data.toString("utf8")}/>, output);
       return output;
     }
 
@@ -59,13 +60,19 @@ export class Terminal {
       } else {
 
         // console.log(commandArray);
-        let command = spawn(firstCommand, commandArray, "utf8");
+        let command = spawn(firstCommand, commandArray, { encoding: "utf8"});
+
+        exec(fullCommand, { encoding: "utf8",
+        timeout: 0,
+  maxBuffer: 200*1024,
+  killSignal: "SIGTERM",
+        cwd: null,
+    env: null}   , function(err, stdout, stderr){
+            console.log(err, stdout, stderr);
+        });
 
         command.stdout.on("data", (data) => {
-          if (data !== "")
-            this._console.insertBefore(this.createOutput(data), this._console.childNodes[this._console.childNodes.length - 1]);
-        });
-        command.stderr.on("data", (data) => {
+          console.log(data);
           if (data !== "")
             this._console.insertBefore(this.createOutput(data), this._console.childNodes[this._console.childNodes.length - 1]);
         });
