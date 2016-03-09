@@ -10,17 +10,13 @@ module.exports = React.createClass({
       { className: "snippet", key: "{this.props.key}" },
       React.createElement(
         "span",
-        null,
-        React.createElement(
-          "b",
-          null,
-          this.props.name
-        )
+        { className: "name" },
+        this.props.name,
+        " :"
       ),
-      " : ",
       React.createElement(
         "span",
-        null,
+        { className: "command" },
         this.props.command
       )
     );

@@ -12,18 +12,15 @@ var ReactDOM = require("react-dom");
 var React = require("react");
 var CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
 var ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
-var spawn = require("cross-spawn");
-var exec = require('child_process').exec;
+var exec = require("child_process").exec;
 
 var Terminal = exports.Terminal = function () {
   function Terminal(Console, ConsuleInput, appContainer) {
     _classCallCheck(this, Terminal);
 
-    // console.log("creating new instance of ConsoleClass");
     ReactDOM.render(React.createElement(CONSOLE_COMPONENT, null), appContainer);
     this._console = document.getElementById(Console);
     this._consoleInput = document.getElementById(ConsuleInput);
-    // console.log(this._consoleInput);
     this._history = [];
     this._indexHistory = 0;
     this.loadEvent();
@@ -35,10 +32,15 @@ var Terminal = exports.Terminal = function () {
       var _this = this;
 
       this._consoleInput.addEventListener("keydown", function (keyEvent) {
+
         if (keyEvent.keyIdentifier === "Enter" && _this._consoleInput.value !== "") _this.onEnterPress();
+
         if (keyEvent.keyIdentifier === "Up" && _this._history.length > 0) //-1
+
           _this.onUpDownPress(-1);
+
         if (keyEvent.keyIdentifier === "Down" && _this._history.length > 0) // +1
+
           _this.onUpDownPress(1);
       });
     }
@@ -46,16 +48,25 @@ var Terminal = exports.Terminal = function () {
     key: "onUpDownPress",
     value: function onUpDownPress(value) {
       if (this._indexHistory >= 0 && this._indexHistory <= this._history.length) {
+
         this._consoleInput.value = this._history[this._indexHistory] !== undefined ? this._history[this._indexHistory] : "";
+
         if (value === 1 && this._indexHistory + value <= this._history.length || value === -1 && this._indexHistory + value >= 0) this._indexHistory += this._indexHistory + value >= 0 ? value : 0;
       }
     }
   }, {
+    key: "insertOutput",
+    value: function insertOutput(data) {
+
+      this._console.insertBefore(this.createOutput(data), this._console.childNodes[this._console.childNodes.length - 1]);
+    }
+  }, {
     key: "createOutput",
     value: function createOutput(data) {
+
       var output = document.createElement("div");
-      console.log(data.toString('utf8'));
-      ReactDOM.render(React.createElement(ConsoleOutputComponent, { text: data.toString('utf8') }), output);
+      console.log(data.toString("utf8"));
+      ReactDOM.render(React.createElement(ConsoleOutputComponent, { text: data.toString("utf8") }), output);
       return output;
     }
   }, {
@@ -64,14 +75,13 @@ var Terminal = exports.Terminal = function () {
       var _this2 = this;
 
       var fullCommand = this._consoleInput.value;
-
       this._history.push(fullCommand);
       this._indexHistory += 1;
-
       var commandArray = fullCommand.split(" ").filter(function (elem, i) {
         return i !== 0;
       });
       var firstCommand = fullCommand.split(" ")[0];
+
       if (firstCommand === "cd") {
 
         process.chdir(commandArray[0]);
@@ -79,31 +89,10 @@ var Terminal = exports.Terminal = function () {
         this._console.insertBefore(this.createOutput(process.cwd()), this._console.childNodes[this._console.childNodes.length - 1]);
       } else {
 
-        // console.log(commandArray);
-        var command = spawn(firstCommand, commandArray, { encoding: 'utf8' });
-
-        exec(fullCommand, { encoding: 'utf8',
-          timeout: 0,
-          maxBuffer: 200 * 1024,
-          killSignal: 'SIGTERM',
-          cwd: null,
-          env: null }, function (err, stdout, stderr) {
-          console.log(err, stdout, stderr);
+        exec(fullCommand, { encoding: "utf8", cwd: null, env: null }, function (err, stdout) {
+          if (err === null) _this2.insertOutput(stdout);else _this2.insertOutput(err);
         });
 
-        command.stdout.on("data", function (data) {
-          console.log(data);
-          if (data !== "") _this2._console.insertBefore(_this2.createOutput(data), _this2._console.childNodes[_this2._console.childNodes.length - 1]);
-        });
-        command.stderr.on("data", function (data) {
-          if (data !== "") _this2._console.insertBefore(_this2.createOutput(data), _this2._console.childNodes[_this2._console.childNodes.length - 1]);
-        });
-        command.on("error", function (error) {
-          console.log(error);
-        });
-        command.on("close", function () {
-          // this._console.insertBefore(this.createOutput("\n"), this._console.childNodes[this._console.childNodes.length - 1]);
-        });
         this._consoleInput.value = "";
       }
     }

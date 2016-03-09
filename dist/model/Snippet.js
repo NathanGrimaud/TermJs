@@ -14,23 +14,25 @@ var React = require("react");
 var SNIPPETS_CONTAINER = require("../components/SnippetsContainer.js");
 
 var SnippetClass = exports.SnippetClass = function () {
-  function SnippetClass(appContainer) {
+  function SnippetClass(consoleInput, appContainer) {
     _classCallCheck(this, SnippetClass);
 
-    this.snippetsContainer = document.createElement("div");
-    ReactDOM.render(React.createElement(SNIPPETS_CONTAINER, null), this.snippetsContainer);
-    appContainer.appendChild(this.snippetsContainer);
+    this._snippetsContainer = document.createElement("div");
+    this._consoleInput = document.getElementById(consoleInput);
+    ReactDOM.render(React.createElement(SNIPPETS_CONTAINER, null), this._snippetsContainer);
+    appContainer.appendChild(this._snippetsContainer);
     this.loadEvents();
   }
 
   _createClass(SnippetClass, [{
     key: "loadEvents",
     value: function loadEvents() {
-      this.snippets = document.getElementsByClassName("snippet");
-      console.log(this.snippets);
-      this.snippets.forEach(function (snip) {
+      this._snippets = document.getElementsByClassName("snippet");
+
+      [].forEach.call(this._snippets, function (snip) {
+        console.log(snip);
         snip.addEventListener("click", function (evt) {
-          return console.log(evt.target);
+          console.log(evt.target);
         });
       });
     }

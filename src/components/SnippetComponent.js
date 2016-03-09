@@ -6,7 +6,7 @@ module.exports = React.createClass({
     console.log("props",this.props);
     return (
         <div className='snippet' key="{this.props.key}">
-          <span><b>{this.props.name}</b></span> : <span>{this.props.command}</span>
+          <span className="name">{this.props.name} :</span><span className="command">{this.props.command}</span>
         </div>
     );
   }

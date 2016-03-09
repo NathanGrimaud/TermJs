@@ -17,7 +17,7 @@ class Main{
     this.terminal = new Terminal("Console","ConsoleInput",this.appContainer);
   }
   loadSnippets(){
-    this.snippets = new SnippetClass(this.appContainer);
+    this.snippets = new SnippetClass("ConsoleInput", this.appContainer);
 
   }
 }

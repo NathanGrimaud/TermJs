@@ -28,7 +28,7 @@ var Main = function () {
   }, {
     key: "loadSnippets",
     value: function loadSnippets() {
-      this.snippets = new SnippetClass(this.appContainer);
+      this.snippets = new SnippetClass("ConsoleInput", this.appContainer);
     }
   }]);
 

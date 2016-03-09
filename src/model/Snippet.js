@@ -5,17 +5,22 @@ const React = require("react");
 const SNIPPETS_CONTAINER = require("../components/SnippetsContainer.js");
 
 export class SnippetClass {
-  constructor(appContainer) {
-    this.snippetsContainer = document.createElement("div");
-    ReactDOM.render( <SNIPPETS_CONTAINER />, this.snippetsContainer);
-    appContainer.appendChild(this.snippetsContainer);
+  constructor(consoleInput, appContainer) {
+    this._snippetsContainer = document.createElement("div");
+    this._consoleInput = document.getElementById(consoleInput);
+    ReactDOM.render( <SNIPPETS_CONTAINER />, this._snippetsContainer);
+    appContainer.appendChild(this._snippetsContainer);
     this.loadEvents();
   }
   loadEvents(){
-    this.snippets = document.getElementsByClassName("snippet");
-    console.log(this.snippets);
-    this.snippets.forEach((snip)=>{
-      snip.addEventListener("click",(evt)=>console.log(evt.target));
+    this._snippets = document.getElementsByClassName("snippet");
+
+    [].forEach.call(this._snippets,(snip)=>{
+      console.log(snip);
+      snip.addEventListener("click",(evt)=>{
+        // 2 * parent because react adds a span
+          console.log(evt.target.parentElement.parentElement);
+      });
     });
   }
 }
