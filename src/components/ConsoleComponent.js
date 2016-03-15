@@ -8,7 +8,7 @@ module.exports = React.createClass({
     return (
       <div id="Console" className="Console">
         <ConsoleOutputComponent text={"# Bienvenue dans le terminal"} />
-        <input id="ConsoleInput" type="text"/>
+        <div contentEditable="True" id="ConsoleInput" type="text"/>
       </div>
     );
   }

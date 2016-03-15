@@ -40,3 +40,5 @@ window.onload = function () {
   main.loadConsole();
   main.loadSnippets();
 };
+
+// use contenteEditable = true

@@ -10,7 +10,7 @@ module.exports = React.createClass({
       "div",
       { id: "Console", className: "Console" },
       React.createElement(ConsoleOutputComponent, { text: "# Bienvenue dans le terminal" }),
-      React.createElement("input", { id: "ConsoleInput", type: "text" })
+      React.createElement("div", { contentEditable: "True", id: "ConsoleInput", type: "text" })
     );
   }
 });
