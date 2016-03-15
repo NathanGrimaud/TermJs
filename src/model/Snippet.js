@@ -8,18 +8,21 @@ export class SnippetClass {
   constructor(consoleInput, appContainer) {
     this._snippetsContainer = document.createElement("div");
     this._consoleInput = document.getElementById(consoleInput);
-    ReactDOM.render( <SNIPPETS_CONTAINER />, this._snippetsContainer);
+    ReactDOM.render( < SNIPPETS_CONTAINER /> , this._snippetsContainer);
     appContainer.appendChild(this._snippetsContainer);
     this.loadEvents();
   }
-  loadEvents(){
+  loadEvents() {
     this._snippets = document.getElementsByClassName("snippet");
 
-    [].forEach.call(this._snippets,(snip)=>{
-      console.log(snip);
-      snip.addEventListener("click",(evt)=>{
+    [].forEach.call(this._snippets, (snip) => {
+      //console.log(snip);
+      snip.addEventListener("click", (evt) => {
         // 2 * parent because react adds a span
-          console.log(evt.target.parentElement.parentElement);
+        let snippetDiv = evt.target.parentElement.parentElement;
+        let snippetCommand = snippetDiv.getElementsByClassName("command")[0];
+        console.log(snippetDiv,snippetCommand,snippetDiv.getElementsByClassName("command"));
+        this._consoleInput.value = snippetCommand.innerHTML;
       });
     });
   }

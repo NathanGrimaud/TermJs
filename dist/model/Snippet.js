@@ -27,12 +27,18 @@ var SnippetClass = exports.SnippetClass = function () {
   _createClass(SnippetClass, [{
     key: "loadEvents",
     value: function loadEvents() {
+      var _this = this;
+
       this._snippets = document.getElementsByClassName("snippet");
 
       [].forEach.call(this._snippets, function (snip) {
-        console.log(snip);
+        //console.log(snip);
         snip.addEventListener("click", function (evt) {
-          console.log(evt.target);
+          // 2 * parent because react adds a span
+          var snippetDiv = evt.target.parentElement.parentElement;
+          var snippetCommand = snippetDiv.getElementsByClassName("command")[0];
+          console.log(snippetDiv, snippetCommand, snippetDiv.getElementsByClassName("command"));
+          _this._consoleInput.value = snippetCommand.innerHTML;
         });
       });
     }

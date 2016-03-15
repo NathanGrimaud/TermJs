@@ -4,7 +4,7 @@ const ReactDOM = require("react-dom");
 const React = require("react");
 const CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
 const ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
-const exec = require("child_process").exec;
+const spawn = require("cross-spawn").spawn;
 
 export class Terminal {
 
@@ -45,18 +45,19 @@ export class Terminal {
     }
   }
   insertOutput(data){
-    
-    this._console.insertBefore(this.createOutput(data), this._console.childNodes[this._console.childNodes.length - 1]);
-
+    let output = this.createOutput(data);
+    let refElement = this._console.childNodes[this._console.childNodes.length - 1];
+    this._console.insertBefore(output, refElement);
   }
   createOutput(data) {
 
     let output = document.createElement("div");
     console.log(data.toString("utf8"));
-    ReactDOM.render( < ConsoleOutputComponent text = {data.toString("utf8")}/>, output);
-      return output;
-
+    ReactDOM.render( < ConsoleOutputComponent text = {data.toString("utf8")} />, output);
+    return output;
     }
+
+
 
     onEnterPress() {
 
@@ -69,19 +70,24 @@ export class Terminal {
       if (firstCommand === "cd") {
 
         process.chdir(commandArray[0]);
-        console.log(process.cwd());
-        this._console.insertBefore(this.createOutput(process.cwd()), this._console.childNodes[this._console.childNodes.length - 1]);
+
+        let output = this.createOutput(process.cwd());
+        let refElem = this._console.childNodes[this._console.childNodes.length - 1];
+        this._console.insertBefore(output, refElem);
+
 
       } else {
+        let command = spawn(firstCommand, commandArray, "utf8");
 
-        exec(fullCommand, { encoding: "utf8",cwd: null,env: null },
-        (err, stdout) => {
-          if(err === null)
-            this.insertOutput(stdout);
-          else
-            this.insertOutput(err);
-        });
+         command.stdout.on("data", (data) => {
+           if (data !== "")
+             this.insertOutput(data);
+         });
 
+         command.on("error", (error) => {
+            this.insertOutput(error);
+         });
+         
         this._consoleInput.value = "";
       }
 

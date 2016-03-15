@@ -12,7 +12,7 @@ var ReactDOM = require("react-dom");
 var React = require("react");
 var CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
 var ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
-var exec = require("child_process").exec;
+var spawn = require("cross-spawn").spawn;
 
 var Terminal = exports.Terminal = function () {
   function Terminal(Console, ConsuleInput, appContainer) {
@@ -57,8 +57,9 @@ var Terminal = exports.Terminal = function () {
   }, {
     key: "insertOutput",
     value: function insertOutput(data) {
-
-      this._console.insertBefore(this.createOutput(data), this._console.childNodes[this._console.childNodes.length - 1]);
+      var output = this.createOutput(data);
+      var refElement = this._console.childNodes[this._console.childNodes.length - 1];
+      this._console.insertBefore(output, refElement);
     }
   }, {
     key: "createOutput",
@@ -85,12 +86,27 @@ var Terminal = exports.Terminal = function () {
       if (firstCommand === "cd") {
 
         process.chdir(commandArray[0]);
-        console.log(process.cwd());
-        this._console.insertBefore(this.createOutput(process.cwd()), this._console.childNodes[this._console.childNodes.length - 1]);
-      } else {
 
-        exec(fullCommand, { encoding: "utf8", cwd: null, env: null }, function (err, stdout) {
-          if (err === null) _this2.insertOutput(stdout);else _this2.insertOutput(err);
+        var output = this.createOutput(process.cwd());
+        var refElem = this._console.childNodes[this._console.childNodes.length - 1];
+        this._console.insertBefore(output, refElem);
+      } else {
+        var command = spawn(firstCommand, commandArray, "utf8");
+
+        command.stdout.on("data", function (data) {
+          if (data !== "") _this2._console.insertBefore(_this2.createOutput(data), _this2._console.childNodes[_this2._console.childNodes.length - 1]);
+        });
+        command.stderr.on("data", function (data) {
+          if (data !== "") _this2._console.insertBefore(_this2.createOutput(data), _this2._console.childNodes[_this2._console.childNodes.length - 1]);
+        });
+        command.stderr.on("data", function (data) {
+          if (data !== "") _this2._console.insertBefore(_this2.createOutput(data), _this2._console.childNodes[_this2._console.childNodes.length - 1]);
+        });
+        command.on("error", function (error) {
+          console.log(error);
+        });
+        command.on("close", function () {
+          // this._console.insertBefore(this.createOutput("\n"), this._console.childNodes[this._console.childNodes.length - 1]);
         });
 
         this._consoleInput.value = "";
