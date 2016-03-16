@@ -5,6 +5,8 @@ const React = require("react");
 const CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
 const ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
 const spawn = require("cross-spawn").spawn;
+const exec = require("child_process").exec;
+
 
 export class Terminal {
 
@@ -18,6 +20,11 @@ export class Terminal {
         this.loadEvent();
 
     }
+    /**
+     * Terminal.loadEvent :
+     * 
+     * loads all keyboards events related to a terminal
+     */
     loadEvent() {
         this._consoleInput.addEventListener("keydown", (keyEvent) => {
 
@@ -40,14 +47,40 @@ export class Terminal {
 
         });
     }
+    /**
+    * terminal.isWindows : 
+    * return true if app is running on window
+    */
+    isWindows() {
 
+        return /^win/.test(process.platform);
+
+    }
+    /**
+     * terminal.stopCommand : 
+     * 
+     * stops a process if one is running in background
+     * 
+     * window don't allow to kill directly from PID,
+     * need to lunch a taskill command
+     */
     stopCommand() {
-        console.log("stop");
-        if(this._runningCmd !== null && this._runningCmd !== undefined){
-            console.log(this._runningCmd);
-            this._runningCmd.kill("SIGINT");
+
+        if (this._runningCmd !== null && this._runningCmd !== undefined) {
+       
+            this._runningCmd.stdin.pause();
+            let pid = this._runningCmd.pid;
+
+            if (!this.isWindows())
+                this._runningCmd.kill(pid);
+            else
+                exec('taskkill /PID ' + this._runningCmd.pid + ' /T /F', (err, stdout, stderr) => {
+                    console.log(err);
+                    console.log(stdout);
+                    console.log(stderr);
+                });
+
         }
-            
     }
 
     onUpDownPress(value) {
@@ -72,20 +105,24 @@ export class Terminal {
     createOutput(data) {
 
         let output = document.createElement("div");
-        console.log(data.toString("utf8"));
         ReactDOM.render(< ConsoleOutputComponent text = {data.toString("utf8") } />, output);
         return output;
 
     }
+    /**
+     * Terminal.execCommand : 
+     * 
+     * execs a command , needs 2 params, cmd and arguments array
+     */
     execCommand(comm, args) {
 
         return new Promise((resolve, reject) => {
-            
-            let command = spawn(comm, args, "utf8");
-            
+
+            let command = spawn(comm, args, "utf8", { detached: true });
+
             this._runningCmd = command;
-            
-            
+
+
             command.stdout.on("data", (data) => {
                 this.insertOutput(data);
             });
@@ -101,9 +138,12 @@ export class Terminal {
             });
 
         });
-
-
     }
+    /**
+     * Moves current directory to parameter
+     * 
+     * spawning cd isn't working, so need to use node.chdir
+     */
 
     execCD(destination) {
         process.chdir(destination);
@@ -136,11 +176,11 @@ export class Terminal {
 
         }
         else {
-            this.execCommand(firstCommand, commandArray).then(
-                ()=>console.log("command ended"),
-                (error)=>console.log(error)
-            )
+            this.execCommand(firstCommand, commandArray)
+                .then(
+                () => console.log("command ended"),
+                (error) => console.log(error)
+                )
         }
-
     }
 }

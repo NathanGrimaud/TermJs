@@ -13,6 +13,7 @@ var React = require("react");
 var CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
 var ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
 var spawn = require("cross-spawn").spawn;
+var exec = require("child_process").exec;
 
 var Terminal = exports.Terminal = function () {
     function Terminal(Console, ConsuleInput, appContainer) {
@@ -50,12 +51,24 @@ var Terminal = exports.Terminal = function () {
             });
         }
     }, {
+        key: "isWindows",
+        value: function isWindows() {
+            return (/^win/.test(process.platform)
+            );
+        }
+    }, {
         key: "stopCommand",
         value: function stopCommand() {
             console.log("stop");
             if (this._runningCmd !== null && this._runningCmd !== undefined) {
                 console.log(this._runningCmd);
-                this._runningCmd.kill("SIGINT");
+                this._runningCmd.stdin.pause();
+                var pid = this._runningCmd.pid;
+                if (!this.isWindows()) this._runningCmd.kill(pid);else exec('taskkill /PID ' + this._runningCmd.pid + ' /T /F', function (err, stdout, stderr) {
+                    console.log(err);
+                    console.log(stdout);
+                    console.log(stderr);
+                });
             }
         }
     }, {
@@ -93,7 +106,7 @@ var Terminal = exports.Terminal = function () {
 
             return new Promise(function (resolve, reject) {
 
-                var command = spawn(comm, args, "utf8");
+                var command = spawn(comm, args, "utf8", { detached: true });
 
                 _this2._runningCmd = command;
 
