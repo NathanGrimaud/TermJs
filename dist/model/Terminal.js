@@ -19,13 +19,19 @@ var Terminal = exports.Terminal = function () {
     function Terminal(Console, ConsuleInput, appContainer) {
         _classCallCheck(this, Terminal);
 
-        ReactDOM.render(React.createElement(CONSOLE_COMPONENT, null), appContainer);
+        this._consoleComponent = ReactDOM.render(React.createElement(CONSOLE_COMPONENT, null), appContainer);
         this._console = document.getElementById(Console);
         this._consoleInput = document.getElementById(ConsuleInput);
         this._history = [];
         this._indexHistory = 0;
         this.loadEvent();
     }
+    /**
+     * Terminal.loadEvent :
+     * 
+     * loads all keyboards events related to a terminal
+     */
+
 
     _createClass(Terminal, [{
         key: "loadEvent",
@@ -50,20 +56,36 @@ var Terminal = exports.Terminal = function () {
                     _this.stopCommand();
             });
         }
+        /**
+        * terminal.isWindows : 
+        * return true if app is running on window
+        */
+
     }, {
         key: "isWindows",
         value: function isWindows() {
+
             return (/^win/.test(process.platform)
             );
         }
+        /**
+         * terminal.stopCommand : 
+         * 
+         * stops a process if one is running in background
+         * 
+         * window don't allow to kill directly from PID,
+         * need to lunch a taskill command
+         */
+
     }, {
         key: "stopCommand",
         value: function stopCommand() {
-            console.log("stop");
+
             if (this._runningCmd !== null && this._runningCmd !== undefined) {
-                console.log(this._runningCmd);
+
                 this._runningCmd.stdin.pause();
                 var pid = this._runningCmd.pid;
+
                 if (!this.isWindows()) this._runningCmd.kill(pid);else exec('taskkill /PID ' + this._runningCmd.pid + ' /T /F', function (err, stdout, stderr) {
                     console.log(err);
                     console.log(stdout);
@@ -95,10 +117,15 @@ var Terminal = exports.Terminal = function () {
         value: function createOutput(data) {
 
             var output = document.createElement("div");
-            console.log(data.toString("utf8"));
             ReactDOM.render(React.createElement(ConsoleOutputComponent, { text: data.toString("utf8") }), output);
             return output;
         }
+        /**
+         * Terminal.execCommand : 
+         * 
+         * execs a command , needs 2 params, cmd and arguments array
+         */
+
     }, {
         key: "execCommand",
         value: function execCommand(comm, args) {
@@ -108,26 +135,39 @@ var Terminal = exports.Terminal = function () {
 
                 var command = spawn(comm, args, "utf8", { detached: true });
 
+                _this2.insertOutput(command.raw);
+                _this2.insertOutput("");
+
                 _this2._runningCmd = command;
 
                 command.stdout.on("data", function (data) {
                     _this2.insertOutput(data);
                 });
 
+                command.stderr.on("data", function (data) {
+                    _this2.insertOutput(data.toString());
+                });
+
                 command.on("error", function (error) {
                     reject(error);
                 });
 
-                _this2._consoleInput.innerHTML = "";
                 command.on("close", function () {
                     _this2._runningCmd = null;
                     resolve();
                 });
             });
         }
+        /**
+         * Moves current directory to parameter
+         * 
+         * spawning cd isn't working, so need to use node.chdir
+         */
+
     }, {
         key: "execCD",
         value: function execCD(destination) {
+
             process.chdir(destination);
             var output = this.createOutput(process.cwd());
             var refElem = this._console.childNodes[this._console.childNodes.length - 1];
@@ -136,6 +176,7 @@ var Terminal = exports.Terminal = function () {
     }, {
         key: "getCommand",
         value: function getCommand(rawCommand) {
+
             return {
                 "raw": rawCommand,
                 "command": rawCommand.split(" ")[0],
@@ -148,6 +189,8 @@ var Terminal = exports.Terminal = function () {
         key: "onEnterPress",
         value: function onEnterPress() {
 
+            this._consoleComponent.changePath();
+
             var fullCommand = this.getCommand(this._consoleInput.innerHTML);
 
             this._history.push(fullCommand.raw);
@@ -155,6 +198,8 @@ var Terminal = exports.Terminal = function () {
 
             var firstCommand = fullCommand.command;
             var commandArray = fullCommand.args;
+
+            this._consoleInput.innerHTML = "";
 
             if (firstCommand === "cd") {
 

@@ -12,13 +12,12 @@ export class Terminal {
 
     constructor(Console, ConsuleInput, appContainer) {
 
-        ReactDOM.render(< CONSOLE_COMPONENT />, appContainer);
+        this._consoleComponent = ReactDOM.render(< CONSOLE_COMPONENT />, appContainer);
         this._console = document.getElementById(Console);
         this._consoleInput = document.getElementById(ConsuleInput);
         this._history = [];
         this._indexHistory = 0;
         this.loadEvent();
-
     }
     /**
      * Terminal.loadEvent :
@@ -67,7 +66,7 @@ export class Terminal {
     stopCommand() {
 
         if (this._runningCmd !== null && this._runningCmd !== undefined) {
-       
+
             this._runningCmd.stdin.pause();
             let pid = this._runningCmd.pid;
 
@@ -120,18 +119,24 @@ export class Terminal {
 
             let command = spawn(comm, args, "utf8", { detached: true });
 
+            this.insertOutput(command.raw);
+            this.insertOutput("")
+
             this._runningCmd = command;
 
 
             command.stdout.on("data", (data) => {
                 this.insertOutput(data);
             });
+            
+            command.stderr.on("data", (data) => {
+                this.insertOutput(data.toString());
+            });
 
             command.on("error", (error) => {
                 reject(error);
             });
 
-            this._consoleInput.innerHTML = "";
             command.on("close", () => {
                 this._runningCmd = null;
                 resolve();
@@ -146,6 +151,7 @@ export class Terminal {
      */
 
     execCD(destination) {
+
         process.chdir(destination);
         let output = this.createOutput(process.cwd());
         let refElem = this._console.childNodes[this._console.childNodes.length - 1];
@@ -153,13 +159,17 @@ export class Terminal {
     }
 
     getCommand(rawCommand) {
+        
         return {
             "raw": rawCommand,
             "command": rawCommand.split(" ")[0],
             "args": rawCommand.split(" ").filter((elem, i) => i !== 0)
         }
+        
     }
     onEnterPress() {
+
+        this._consoleComponent.changePath();
 
         let fullCommand = this.getCommand(this._consoleInput.innerHTML);
 
@@ -168,6 +178,8 @@ export class Terminal {
 
         let firstCommand = fullCommand.command;
         let commandArray = fullCommand.args;
+
+        this._consoleInput.innerHTML = "";
 
         if (firstCommand === "cd") {
 

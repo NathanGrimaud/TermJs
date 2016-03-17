@@ -2,28 +2,22 @@
 // const React = require('React');
 const ReactDOM = require("react-dom");
 const React = require("react");
-const SNIPPETS_CONTAINER = require("../components/SnippetsContainer.js");
+const SNIPPET = require("../components/SnippetComponent");
+const SNIPPETS_CONTAINER = require("../components/SnippetsContainer");
+let data = require("../private/snippets.json");
 
 export class SnippetClass {
-  constructor(consoleInput, appContainer) {
-    this._snippetsContainer = document.createElement("div");
-    this._consoleInput = document.getElementById(consoleInput);
-    ReactDOM.render( < SNIPPETS_CONTAINER /> , this._snippetsContainer);
-    appContainer.appendChild(this._snippetsContainer);
-    this.loadEvents();
-  }
-  loadEvents() {
-    this._snippets = document.getElementsByClassName("snippet");
 
-    [].forEach.call(this._snippets, (snip) => {
-      //console.log(snip);
-      snip.addEventListener("click", (evt) => {
-        // 2 * parent because react adds a span
-        let snippetDiv = evt.target.parentElement.parentElement;
-        let snippetCommand = snippetDiv.getElementsByClassName("command")[0];
-        console.log(snippetDiv,snippetCommand,snippetDiv.getElementsByClassName("command"));
-        this._consoleInput.value = snippetCommand.innerHTML;
-      });
-    });
-  }
+    constructor(consoleInput, appContainer) {
+
+        this._snippetsContainer = document.createElement("div");
+        this._consoleInput = document.getElementById(consoleInput);
+
+        this._sinppetsInstance = ReactDOM.render(
+            <SNIPPETS_CONTAINER>
+                {data.snippets.map((val) => <SNIPPET key={val.key} _console={this._consoleInput} name={val.name} command={val.command}/>) }
+            </SNIPPETS_CONTAINER>, this._snippetsContainer);
+
+        appContainer.appendChild(this._snippetsContainer);
+    }
 }

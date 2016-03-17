@@ -3,11 +3,16 @@
 var React = require("react");
 module.exports = React.createClass({
   displayName: "SnippetComponent",
+
+  handleClick: function handleClick(evt) {
+    this.props._console.innerHTML = this.props.command;
+  },
+
   render: function render() {
-    console.log("props", this.props);
+
     return React.createElement(
       "div",
-      { className: "snippet", key: "{this.props.key}" },
+      { onClick: this.handleClick, className: "snippet", key: "{this.props.key}" },
       React.createElement(
         "span",
         { className: "name" },
@@ -21,4 +26,5 @@ module.exports = React.createClass({
       )
     );
   }
+
 });
