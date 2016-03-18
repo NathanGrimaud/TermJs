@@ -106,18 +106,18 @@ var Terminal = exports.Terminal = function () {
         }
     }, {
         key: "insertOutput",
-        value: function insertOutput(data) {
+        value: function insertOutput(data, className) {
 
-            var output = this.createOutput(data);
+            var output = this.createOutput(data, className);
             var refElement = this._console.childNodes[this._console.childNodes.length - 1];
             this._console.insertBefore(output, refElement);
         }
     }, {
         key: "createOutput",
-        value: function createOutput(data) {
-
+        value: function createOutput(data, className) {
+            if (className === undefined) className = "";
             var output = document.createElement("div");
-            ReactDOM.render(React.createElement(ConsoleOutputComponent, { text: data.toString("utf8") }), output);
+            ReactDOM.render(React.createElement(ConsoleOutputComponent, { className: className, text: data.toString("utf8") }), output);
             return output;
         }
         /**
@@ -135,17 +135,17 @@ var Terminal = exports.Terminal = function () {
 
                 var command = spawn(comm, args, "utf8", { detached: true });
 
-                _this2.insertOutput(command.raw);
-                _this2.insertOutput("");
-
                 _this2._runningCmd = command;
 
                 command.stdout.on("data", function (data) {
-                    _this2.insertOutput(data);
+
+                    if (data !== undefined) ;
+                    _this2.insertOutput(data, "output");
                 });
 
                 command.stderr.on("data", function (data) {
-                    _this2.insertOutput(data.toString());
+
+                    if (data !== undefined) _this2.insertOutput(data, "output");
                 });
 
                 command.on("error", function (error) {
@@ -201,6 +201,10 @@ var Terminal = exports.Terminal = function () {
 
             this._consoleInput.innerHTML = "";
 
+            var raw = process.cwd() + " : " + fullCommand.raw;
+
+            this.insertOutput(raw, "raw");
+
             if (firstCommand === "cd") {
 
                 var destination = commandArray[0];
@@ -209,7 +213,7 @@ var Terminal = exports.Terminal = function () {
                 this.execCommand(firstCommand, commandArray).then(function () {
                     return console.log("command ended");
                 }, function (error) {
-                    return console.log(error);
+                    return console.log("___", error, "____");
                 });
             }
         }

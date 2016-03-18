@@ -94,17 +94,19 @@ export class Terminal {
         }
 
     }
-    insertOutput(data) {
+    insertOutput(data,className) {
 
-        let output = this.createOutput(data);
+
+        let output = this.createOutput(data,className);
         let refElement = this._console.childNodes[this._console.childNodes.length - 1];
         this._console.insertBefore(output, refElement);
 
     }
-    createOutput(data) {
-
+    createOutput(data,className) {
+        if(className===undefined)
+            className="";
         let output = document.createElement("div");
-        ReactDOM.render(< ConsoleOutputComponent text = {data.toString("utf8") } />, output);
+        ReactDOM.render(< ConsoleOutputComponent className={className} text = {data.toString("utf8") } />, output);
         return output;
 
     }
@@ -119,18 +121,20 @@ export class Terminal {
 
             let command = spawn(comm, args, "utf8", { detached: true });
 
-            this.insertOutput(command.raw);
-            this.insertOutput("")
-
             this._runningCmd = command;
 
-
             command.stdout.on("data", (data) => {
-                this.insertOutput(data);
+                
+               if(data !== undefined);
+                    this.insertOutput(data,"output");
+                    
             });
             
             command.stderr.on("data", (data) => {
-                this.insertOutput(data.toString());
+                
+                if (data !== undefined)
+                    this.insertOutput(data,"output");
+                    
             });
 
             command.on("error", (error) => {
@@ -156,6 +160,7 @@ export class Terminal {
         let output = this.createOutput(process.cwd());
         let refElem = this._console.childNodes[this._console.childNodes.length - 1];
         this._console.insertBefore(output, refElem);
+        
     }
 
     getCommand(rawCommand) {
@@ -181,6 +186,11 @@ export class Terminal {
 
         this._consoleInput.innerHTML = "";
 
+        let raw = process.cwd() + " : " + fullCommand.raw ;
+        
+        this.insertOutput(raw, "raw");
+
+
         if (firstCommand === "cd") {
 
             let destination = commandArray[0]
@@ -191,7 +201,7 @@ export class Terminal {
             this.execCommand(firstCommand, commandArray)
                 .then(
                 () => console.log("command ended"),
-                (error) => console.log(error)
+                (error) => console.log("___",error,"____")
                 )
         }
     }

@@ -12,6 +12,7 @@ body {
   background-color: #37474f;
   display: inline-flex;
   width: 100%;
+  padding: 5px;
 }
 .inputPath {
   color: #e0e0e0;
@@ -19,4 +20,12 @@ body {
 }
 .inputDiv {
   width: 50%;
+}
+.raw {
+  color: #e0e0e0;
+  font-style: italic;
+  padding: 5px;
+}
+.output {
+  padding-left: 5px;
 }
