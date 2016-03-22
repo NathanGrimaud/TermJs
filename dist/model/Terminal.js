@@ -115,6 +115,7 @@ var Terminal = exports.Terminal = function () {
     }, {
         key: "createOutput",
         value: function createOutput(data, className) {
+
             if (className === undefined) className = "";
             var output = document.createElement("div");
             ReactDOM.render(React.createElement(ConsoleOutputComponent, { className: className, text: data.toString("utf8") }), output);

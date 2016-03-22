@@ -103,12 +103,13 @@ export class Terminal {
 
     }
     createOutput(data,className) {
+        
         if(className===undefined)
             className="";
         let output = document.createElement("div");
         ReactDOM.render(< ConsoleOutputComponent className={className} text = {data.toString("utf8") } />, output);
         return output;
-
+        
     }
     /**
      * Terminal.execCommand : 

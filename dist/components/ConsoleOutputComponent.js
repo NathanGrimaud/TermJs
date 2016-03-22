@@ -1,18 +1,17 @@
 "use strict";
 
 var React = require("react");
+var Highlight = require("react-highlight");
 //const Highlight = require("react-highlight");
 module.exports = React.createClass({
-  displayName: "ConsoleOutputComponent",
+    displayName: "ConsoleOutputComponent",
 
-  render: function render() {
+    render: function render() {
 
-    var className = "bash " + this.props.className;
+        var className = "bash " + this.props.className;
 
-    return React.createElement(
-      "div",
-      { className: className },
-      this.props.text
-    );
-  }
+        return React.createElement(Highlight, {
+            className: this.props.text
+        }, this.props.text);
+    }
 });
