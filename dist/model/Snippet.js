@@ -9,9 +9,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var ReactDOM = require("react-dom");
 var React = require("react");
-var SNIPPET = require("../components/SnippetComponent");
-var SNIPPETS_CONTAINER = require("../components/SnippetsContainer");
-var data = require("../private/snippets.json");
+var pageLocation = process.cwd();
+
+var SNIPPET = require(pageLocation + "/dist/components/SnippetComponent").SnippetComponent;
+var SNIPPETS_CONTAINER = require(pageLocation + "/dist/components/SnippetsContainer").SnippetsContainerComponent;
+var data = require(pageLocation + "/dist/private/snippets.json");
 
 var SnippetClass = exports.SnippetClass = function SnippetClass(consoleInput, appContainer) {
     var _this = this;
@@ -19,6 +21,7 @@ var SnippetClass = exports.SnippetClass = function SnippetClass(consoleInput, ap
     _classCallCheck(this, SnippetClass);
 
     this._snippetsContainer = document.createElement("div");
+
     this._consoleInput = document.getElementById(consoleInput);
 
     this._sinppetsInstance = ReactDOM.render(React.createElement(

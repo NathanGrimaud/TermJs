@@ -8,12 +8,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var pageLocation = process.cwd();
+
 var ReactDOM = require("react-dom");
 var React = require("react");
-var CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
-var ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
 var spawn = require("cross-spawn").spawn;
 var exec = require("child_process").exec;
+
+var CONSOLE_COMPONENT = require(pageLocation + "/dist/components/ConsoleComponent.js").ConsoleComponent;
+var ConsoleOutputComponent = require(pageLocation + "/dist/components/ConsoleOutputComponent.js").ConsoleOutputComponent;
 
 var Terminal = exports.Terminal = function () {
     function Terminal(Console, ConsuleInput, appContainer) {
@@ -117,6 +120,7 @@ var Terminal = exports.Terminal = function () {
         value: function createOutput(data, className) {
 
             if (className === undefined) className = "";
+
             var output = document.createElement("div");
             ReactDOM.render(React.createElement(ConsoleOutputComponent, { className: className, text: data.toString("utf8") }), output);
             return output;
@@ -189,8 +193,6 @@ var Terminal = exports.Terminal = function () {
     }, {
         key: "onEnterPress",
         value: function onEnterPress() {
-
-            this._consoleComponent.changePath();
 
             var fullCommand = this.getCommand(this._consoleInput.innerHTML);
 

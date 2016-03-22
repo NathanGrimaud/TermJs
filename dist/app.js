@@ -11,23 +11,27 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Terminal = require("./model/Terminal.js").Terminal;
-var SnippetClass = require("./model/Snippet.js").SnippetClass;
+var pageLocation = process.cwd();
+var Terminal = require(pageLocation + "/dist/model/Terminal").Terminal;
+var SnippetClass = require(pageLocation + "/dist/model/Snippet").SnippetClass;
 
 var Main = function () {
   function Main() {
     _classCallCheck(this, Main);
+
+    this.appContainer = document.getElementById("app");
   }
 
   _createClass(Main, [{
     key: "loadConsole",
     value: function loadConsole() {
-      this.appContainer = document.getElementById("appcontainer");
+
       this.terminal = new Terminal("Console", "ConsoleInput", this.appContainer);
     }
   }, {
     key: "loadSnippets",
     value: function loadSnippets() {
+
       this.snippets = new SnippetClass("ConsoleInput", this.appContainer);
     }
   }]);
@@ -36,6 +40,7 @@ var Main = function () {
 }();
 
 window.onload = function () {
+
   var main = new Main();
   main.loadConsole();
   main.loadSnippets();

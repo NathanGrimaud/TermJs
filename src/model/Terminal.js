@@ -1,11 +1,15 @@
 "use strict";
 
+
+const pageLocation = process.cwd();
+
 const ReactDOM = require("react-dom");
 const React = require("react");
-const CONSOLE_COMPONENT = require("../components/ConsoleComponent.js");
-const ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js");
 const spawn = require("cross-spawn").spawn;
 const exec = require("child_process").exec;
+
+const CONSOLE_COMPONENT = require(`${pageLocation}/dist/components/ConsoleComponent.js`).ConsoleComponent;
+const ConsoleOutputComponent = require(`${pageLocation}/dist/components/ConsoleOutputComponent.js`).ConsoleOutputComponent;
 
 
 export class Terminal {
@@ -106,6 +110,7 @@ export class Terminal {
         
         if(className===undefined)
             className="";
+            
         let output = document.createElement("div");
         ReactDOM.render(< ConsoleOutputComponent className={className} text = {data.toString("utf8") } />, output);
         return output;
@@ -174,8 +179,6 @@ export class Terminal {
         
     }
     onEnterPress() {
-
-        this._consoleComponent.changePath();
 
         let fullCommand = this.getCommand(this._consoleInput.innerHTML);
 

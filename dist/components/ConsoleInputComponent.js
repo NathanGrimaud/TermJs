@@ -13,48 +13,54 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = require("react");
+var pageLocation = process.cwd();
+var ConsoleOutputComponent = require(pageLocation + "/dist/components/ConsoleOutputComponent.js").ConsoleOutputComponent;
 
-var SnippetComponent = exports.SnippetComponent = function (_React$Component) {
-    _inherits(SnippetComponent, _React$Component);
+var ConsoleInputComponent = exports.ConsoleInputComponent = function (_React$Component) {
+    _inherits(ConsoleInputComponent, _React$Component);
 
-    function SnippetComponent(props) {
-        _classCallCheck(this, SnippetComponent);
+    function ConsoleInputComponent(props) {
+        _classCallCheck(this, ConsoleInputComponent);
 
-        /**
-         * not sure this is the best way but ... it works
-         */
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ConsoleInputComponent).call(this, props));
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SnippetComponent).call(this, props));
+        _this._handleTouch = _this.handleTouch.bind(_this);
+        _this._changePath = _this.changePath.bind(_this);
 
-        _this._handleClick = _this.handleClick.bind(_this);
+        _this.state = { path: process.cwd() };
         return _this;
     }
 
-    _createClass(SnippetComponent, [{
-        key: "handleClick",
-        value: function handleClick(evt) {
-            this.props._console.innerHTML = this.props.command;
+    _createClass(ConsoleInputComponent, [{
+        key: "handleTouch",
+        value: function handleTouch(evt) {
+
+            if (evt.key === "Enter") this._changePath(process.cwd());
+        }
+    }, {
+        key: "changePath",
+        value: function changePath(path) {
+
+            this.state.path = path;
+            this.forceUpdate();
         }
     }, {
         key: "render",
         value: function render() {
+
             return React.createElement(
                 "div",
-                { onClick: this._handleClick, className: "snippet", key: "{this.props.key}" },
+                { className: "inputWrapper" },
                 React.createElement(
                     "span",
-                    { className: "name" },
-                    this.props.name,
-                    ": "
+                    { className: "inputPath" },
+                    this.state.path + " > ",
+                    " "
                 ),
-                React.createElement(
-                    "span",
-                    { className: "command" },
-                    this.props.command
-                )
+                React.createElement("div", { onKeyPress: this._handleTouch, className: "inputDiv", contentEditable: "True", id: "ConsoleInput", type: "text" })
             );
         }
     }]);
 
-    return SnippetComponent;
+    return ConsoleInputComponent;
 }(React.Component);

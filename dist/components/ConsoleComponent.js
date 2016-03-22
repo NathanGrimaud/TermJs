@@ -1,41 +1,43 @@
 "use strict";
 
-var React = require("react");
-var ConsoleOutputComponent = require("./ConsoleOutputComponent.js");
-
-module.exports = React.createClass({
-
-  displayName: "ConsoleComponent",
-
-  getInitialState: function getInitialState() {
-    return { path: process.cwd() };
-  },
-
-  changePath: function changePath() {
-    this.setState(function (previousState, currentProp) {
-      return { path: process.cwd() };
-    });
-    this.forceUpdate();
-  },
-
-
-  render: function render() {
-
-    return React.createElement(
-      "div",
-      { id: "Console", className: "Console" },
-      React.createElement(ConsoleOutputComponent, { text: "# Bienvenue dans le terminal" }),
-      React.createElement(
-        "div",
-        { className: "inputWrapper" },
-        React.createElement(
-          "span",
-          { className: "inputPath" },
-          this.state.path + " > ",
-          "  "
-        ),
-        React.createElement("div", { className: "inputDiv", contentEditable: "True", id: "ConsoleInput", type: "text" })
-      )
-    );
-  }
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = require("react");
+var pageLocation = process.cwd();
+var ConsoleOutputComponent = require(pageLocation + "/dist/components/ConsoleOutputComponent.js").ConsoleOutputComponent;
+var ConsoleInputComponent = require(pageLocation + "/dist/components/ConsoleInputComponent.js").ConsoleInputComponent;
+
+var ConsoleComponent = exports.ConsoleComponent = function (_React$Component) {
+    _inherits(ConsoleComponent, _React$Component);
+
+    function ConsoleComponent(props) {
+        _classCallCheck(this, ConsoleComponent);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(ConsoleComponent).call(this, props));
+    }
+
+    _createClass(ConsoleComponent, [{
+        key: "render",
+        value: function render() {
+
+            return React.createElement(
+                "div",
+                { id: "Console", className: "Console" },
+                React.createElement(ConsoleOutputComponent, { text: "# Bienvenue dans le terminal" }),
+                React.createElement(ConsoleInputComponent, null)
+            );
+        }
+    }]);
+
+    return ConsoleComponent;
+}(React.Component);

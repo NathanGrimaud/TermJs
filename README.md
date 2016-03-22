@@ -12,3 +12,4 @@
 
  - SSH , passwords entries
  - encoding output in windows
+ - REPLS
