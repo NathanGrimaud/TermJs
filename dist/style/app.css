@@ -115,3 +115,10 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 .Console {
   width: 100%;
 }
+.treeViewWrapper {
+  display: inline-block;
+}
+.leaf {
+  color: green;
+  opacity: 0.4;
+}

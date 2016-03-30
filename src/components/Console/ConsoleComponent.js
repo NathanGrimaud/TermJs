@@ -5,6 +5,7 @@ const React = require("react");
 const ConsoleOutputComponent = require(`./ConsoleOutputComponent.js`).ConsoleOutputComponent;
 const ConsoleInputComponent = require(`./ConsoleInputComponent.js`).ConsoleInputComponent;
 const SnippetsContainerComponent = require(`../Snippets/SnippetsContainerComponent.js`).SnippetsContainerComponent;
+const TreeViewComponent = require(`../TreeView/TreeViewComponent.js`).TreeViewComponent;
 const Process = require(`../../services/Process`).Process;
 const Bash = require(`../../model/Bash`).Bash;
 
@@ -37,8 +38,10 @@ export class ConsoleComponent extends React.Component {
 
         return (
             <div className="consoleWrapper">
-                
-                <div id="Console" className="Console">
+                <div className="treeViewWrapper">
+                    <TreeViewComponent ref="treeView" parent={this} />
+                </div>
+                <div className="Console">
                     {this.state.outputs.map(output => output) }
                     <ConsoleInputComponent ref="ConsoleInputComponent" parent={this} process={this._process}/>
                 </div>

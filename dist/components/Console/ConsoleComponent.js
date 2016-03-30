@@ -17,6 +17,7 @@ var React = require("react");
 var ConsoleOutputComponent = require("./ConsoleOutputComponent.js").ConsoleOutputComponent;
 var ConsoleInputComponent = require("./ConsoleInputComponent.js").ConsoleInputComponent;
 var SnippetsContainerComponent = require("../Snippets/SnippetsContainerComponent.js").SnippetsContainerComponent;
+var TreeViewComponent = require("../TreeView/TreeViewComponent.js").TreeViewComponent;
 var Process = require("../../services/Process").Process;
 var Bash = require("../../model/Bash").Bash;
 
@@ -64,7 +65,12 @@ var ConsoleComponent = exports.ConsoleComponent = function (_React$Component) {
                 { className: "consoleWrapper" },
                 React.createElement(
                     "div",
-                    { id: "Console", className: "Console" },
+                    { className: "treeViewWrapper" },
+                    React.createElement(TreeViewComponent, { ref: "treeView", parent: this })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "Console" },
                     this.state.outputs.map(function (output) {
                         return output;
                     }),
