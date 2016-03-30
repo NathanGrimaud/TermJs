@@ -21,7 +21,7 @@ var ConsoleInputComponent = exports.ConsoleInputComponent = function (_React$Com
 
     /**
      * @constructor
-     * @param {Object} props - contains { process: Process }
+     * @param {Object} props - contains { process: Process, parent : ConsoleComponent }
      */
 
     function ConsoleInputComponent(props) {
@@ -31,6 +31,7 @@ var ConsoleInputComponent = exports.ConsoleInputComponent = function (_React$Com
 
         _this._process = props.process;
         _this._parent = props.parent;
+
         _this.state = {
             path: process.cwd(),
             inputText: "",
