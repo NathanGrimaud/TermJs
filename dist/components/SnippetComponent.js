@@ -20,36 +20,37 @@ var SnippetComponent = exports.SnippetComponent = function (_React$Component) {
     function SnippetComponent(props) {
         _classCallCheck(this, SnippetComponent);
 
-        /**
-         * not sure this is the best way but ... it works
-         */
-
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SnippetComponent).call(this, props));
 
-        _this._handleClick = _this.handleClick.bind(_this);
+        _this._parent = props.parent;
         return _this;
     }
 
     _createClass(SnippetComponent, [{
         key: "handleClick",
         value: function handleClick(evt) {
-            this.props._console.innerHTML = this.props.command;
+            console.log("will be inserted : ", this.refs.name.innerText);
+            this._parent.insertInput(this.refs.command.innerText);
         }
     }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             return React.createElement(
                 "div",
-                { onClick: this._handleClick, className: "snippet", key: "{this.props.key}" },
+                { onClick: function onClick(evt) {
+                        return _this2.handleClick(evt);
+                    }, className: "snippet", key: "{this.props.key}" },
                 React.createElement(
                     "span",
-                    { className: "name" },
+                    { ref: "name", className: "name" },
                     this.props.name,
                     ": "
                 ),
                 React.createElement(
                     "span",
-                    { className: "command" },
+                    { ref: "command", className: "command" },
                     this.props.command
                 )
             );

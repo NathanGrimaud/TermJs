@@ -30,6 +30,7 @@ var ConsoleInputComponent = exports.ConsoleInputComponent = function (_React$Com
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ConsoleInputComponent).call(this, props));
 
         _this._process = props.process;
+        _this._parent = props.parent;
         _this.state = {
             path: process.cwd(),
             inputText: "",
@@ -62,7 +63,6 @@ var ConsoleInputComponent = exports.ConsoleInputComponent = function (_React$Com
     }, {
         key: "insertInput",
         value: function insertInput(input) {
-            console.log('input will be inserted()');
             this.refs.input.textContent = input;
         }
     }, {
@@ -71,7 +71,15 @@ var ConsoleInputComponent = exports.ConsoleInputComponent = function (_React$Com
 
             if (evt.key === "Enter") this.handleEnterTouch(evt);else if (evt.key === "ArrowUp") this.handleArrowTouch(-1);else if (evt.key === "ArrowDown") this.handleArrowTouch(+1);
             // c = 67   
-            else if (evt.charCode === 67 && evt.ctrlKey) this.handleCtrlCTouch();
+            else if (evt.keyCode === 67 && evt.ctrlKey) this.handleCtrlCTouch();
+        }
+    }, {
+        key: "handleCtrlCTouch",
+        value: function handleCtrlCTouch() {
+
+            this.refs.input.textContent = "";
+            this._parent.insertOutput("command stopped by keyboard");
+            this._process.stopCommand();
         }
     }, {
         key: "handleArrowTouch",

@@ -12,48 +12,29 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var pageLocation = process.cwd();
-
 var React = require("react");
-var SNIPPET = require("./SnippetComponent.js");
+var HIGHLIGHT = require("react-highlight");
 
-var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (_React$Component) {
-    _inherits(SnippetsContainerComponent, _React$Component);
+var ConsoleOutputComponent = exports.ConsoleOutputComponent = function (_React$Component) {
+    _inherits(ConsoleOutputComponent, _React$Component);
 
-    function SnippetsContainerComponent(props) {
-        _classCallCheck(this, SnippetsContainerComponent);
+    function ConsoleOutputComponent(props) {
+        _classCallCheck(this, ConsoleOutputComponent);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(SnippetsContainerComponent).call(this, props));
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(ConsoleOutputComponent).call(this, props));
     }
 
-    _createClass(SnippetsContainerComponent, [{
-        key: "onClick",
-        value: function onClick() {}
-    }, {
+    _createClass(ConsoleOutputComponent, [{
         key: "render",
         value: function render() {
+            var className = "bash " + this.props.className;
             return React.createElement(
-                "div",
-                { className: "snippetsWrapper" },
-                React.createElement(
-                    "div",
-                    { className: "snippets" },
-                    " ",
-                    this.props.children,
-                    " "
-                ),
-                React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "div",
-                        { className: "snippetAdd", onClick: this.onClick },
-                        " "
-                    )
-                )
+                HIGHLIGHT,
+                { className: className },
+                this.props.text
             );
         }
     }]);
 
-    return SnippetsContainerComponent;
+    return ConsoleOutputComponent;
 }(React.Component);

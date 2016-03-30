@@ -12,48 +12,49 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var pageLocation = process.cwd();
-
 var React = require("react");
-var SNIPPET = require("./SnippetComponent.js");
 
-var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (_React$Component) {
-    _inherits(SnippetsContainerComponent, _React$Component);
+var SnippetComponent = exports.SnippetComponent = function (_React$Component) {
+    _inherits(SnippetComponent, _React$Component);
 
-    function SnippetsContainerComponent(props) {
-        _classCallCheck(this, SnippetsContainerComponent);
+    function SnippetComponent(props) {
+        _classCallCheck(this, SnippetComponent);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(SnippetsContainerComponent).call(this, props));
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SnippetComponent).call(this, props));
+
+        _this._parent = props.parent;
+        return _this;
     }
 
-    _createClass(SnippetsContainerComponent, [{
-        key: "onClick",
-        value: function onClick() {}
+    _createClass(SnippetComponent, [{
+        key: "handleClick",
+        value: function handleClick(evt) {
+            this._parent.insertInput(this.refs.command.innerText);
+        }
     }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             return React.createElement(
                 "div",
-                { className: "snippetsWrapper" },
+                { onClick: function onClick(evt) {
+                        return _this2.handleClick(evt);
+                    }, className: "snippet", key: "{this.props.key}" },
                 React.createElement(
-                    "div",
-                    { className: "snippets" },
-                    " ",
-                    this.props.children,
-                    " "
+                    "span",
+                    { ref: "name", className: "name" },
+                    this.props.name,
+                    ": "
                 ),
                 React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "div",
-                        { className: "snippetAdd", onClick: this.onClick },
-                        " "
-                    )
+                    "span",
+                    { ref: "command", className: "command" },
+                    this.props.command
                 )
             );
         }
     }]);
 
-    return SnippetsContainerComponent;
+    return SnippetComponent;
 }(React.Component);

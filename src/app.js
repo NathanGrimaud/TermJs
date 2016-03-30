@@ -1,39 +1,34 @@
 "use strict";
-/*
-  const ReactDOM = require("react-dom");
-  const React = require("react");
+
+//mutiny on the bounty
+//const pageLocation = process.cwd();
 
 
-  regarder le content encoding sur les headers
+const React = require("react");
+const ReactDOM = require("react-dom");
+
+const CONSOLE_COMPONENT = require(`./dist/components/Console/ConsoleComponent`).ConsoleComponent;
+
+/**
+* for react debuging
+
+const bw = require("electron").remote.BrowserWindow;
+bw.addDevToolsExtension(`./react-devtools/shells/chrome`);
 */
-const pageLocation = process.cwd();
-const Terminal = require(`${pageLocation}/dist/model/Terminal`).Terminal;
-const SnippetClass = require(`${pageLocation}/dist/model/Snippet`).SnippetClass;
 
-class Main{
-    
-   constructor() {
-    this.appContainer = document.getElementById("app");
-   }    
 
-  loadConsole(){
-      
-    this.terminal = new Terminal("Console","ConsoleInput",this.appContainer);
-  
-  }
-  
-  loadSnippets(){
-      
-    this.snippets = new SnippetClass("ConsoleInput", this.appContainer);
-  }
+class Main {
+
+    constructor() {
+        this.appContainer = document.getElementById("app");
+    }
+
+    loadConsole() {
+        ReactDOM.render(<CONSOLE_COMPONENT/>, this.appContainer)
+    }
 }
 
 window.onload = function() {
-    
-  let main = new Main();
-  main.loadConsole();
-  main.loadSnippets();
-  
+    let main = new Main();
+    main.loadConsole();
 };
-
-// use contenteEditable = true

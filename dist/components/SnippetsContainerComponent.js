@@ -15,7 +15,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var pageLocation = process.cwd();
 
 var React = require("react");
-var SNIPPET = require("./SnippetComponent.js");
+var SNIPPET = require("./SnippetComponent.js").SnippetComponent;
 
 var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (_React$Component) {
     _inherits(SnippetsContainerComponent, _React$Component);
@@ -23,15 +23,38 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
     function SnippetsContainerComponent(props) {
         _classCallCheck(this, SnippetsContainerComponent);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(SnippetsContainerComponent).call(this, props));
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SnippetsContainerComponent).call(this, props));
+
+        _this.state = {
+            snippetsArray: []
+        };
+        _this.loadData();
+        _this._parent = props.parent;
+        return _this;
     }
 
     _createClass(SnippetsContainerComponent, [{
-        key: "onClick",
-        value: function onClick() {}
+        key: "insertInput",
+        value: function insertInput(input) {
+            this._parent.insertInput(input);
+        }
+    }, {
+        key: "loadData",
+        value: function loadData() {
+            var _this2 = this;
+
+            var data = require("../private/snippets.json");
+
+            [].forEach.call(data.snippets, function (value, index, array) {
+
+                _this2.state.snippetsArray.push(React.createElement(SNIPPET, { parent: _this2, key: value.key, name: value.name, command: value.command }));
+            });
+        }
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
             return React.createElement(
                 "div",
                 { className: "snippetsWrapper" },
@@ -39,7 +62,7 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
                     "div",
                     { className: "snippets" },
                     " ",
-                    this.props.children,
+                    this.state.snippetsArray,
                     " "
                 ),
                 React.createElement(
@@ -47,7 +70,9 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
                     null,
                     React.createElement(
                         "div",
-                        { className: "snippetAdd", onClick: this.onClick },
+                        { className: "snippetAdd", onClick: function onClick() {
+                                return _this3.onClick();
+                            } },
                         " "
                     )
                 )

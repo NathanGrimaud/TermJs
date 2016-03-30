@@ -7,6 +7,7 @@ const BrowserWindow = electron.BrowserWindow;  // Module to create native browse
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
 
+
 // Quit when all windows are closed.
 app.on("window-all-closed", function() {
   // On OS X it is common for applications and their menu bar
@@ -21,6 +22,8 @@ app.on("window-all-closed", function() {
 app.on("ready", function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600 });
+
+  
   // and load the index.html of the app.
   mainWindow.loadURL("file://" + __dirname + "/index.html");
   

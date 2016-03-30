@@ -16,9 +16,9 @@ var React = require("react");
 
 var ConsoleOutputComponent = require("./ConsoleOutputComponent.js").ConsoleOutputComponent;
 var ConsoleInputComponent = require("./ConsoleInputComponent.js").ConsoleInputComponent;
-var SnippetsContainerComponent = require("./SnippetsContainerComponent.js").SnippetsContainerComponent;
-var Process = require("../services/Process").Process;
-var Bash = require("../model/Bash").Bash;
+var SnippetsContainerComponent = require("../Snippets/SnippetsContainerComponent.js").SnippetsContainerComponent;
+var Process = require("../../services/Process").Process;
+var Bash = require("../../model/Bash").Bash;
 
 var ConsoleComponent = exports.ConsoleComponent = function (_React$Component) {
     _inherits(ConsoleComponent, _React$Component);
@@ -68,7 +68,7 @@ var ConsoleComponent = exports.ConsoleComponent = function (_React$Component) {
                     this.state.outputs.map(function (output) {
                         return output;
                     }),
-                    React.createElement(ConsoleInputComponent, { ref: "ConsoleInputComponent", process: this._process })
+                    React.createElement(ConsoleInputComponent, { ref: "ConsoleInputComponent", parent: this, process: this._process })
                 ),
                 React.createElement(SnippetsContainerComponent, { parent: this, process: this._process })
             );
