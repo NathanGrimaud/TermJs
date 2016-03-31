@@ -41,14 +41,15 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
     }, {
         key: "hideModal",
         value: function hideModal() {
-            console.log(this.refs.nameInput, this.refs.commandInput);
+
             var name = this.refs.nameInput.value;
             var command = this.refs.commandInput.value;
-            if (name !== "" && command !== "") {
-                var a = new Snippet(name, command);
-                a.save();
-            }
+            var a = new Snippet(name, command);
+            if (name !== "" && command !== "") a.save();
+
             this.refs.modal.hide();
+            this.state.snippetsArray.push(React.createElement(SnippetComponent, { parent: this, key: a._key, name: a._name, command: a._command }));
+            this.forceUpdate();
         }
     }, {
         key: "insertInput",

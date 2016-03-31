@@ -19,20 +19,21 @@ export class SnippetsContainerComponent extends React.Component {
     showModal(){
         this.refs.modal.show();
     }
-    hideModal(){      
+    hideModal(){
 
       let name = this.refs.nameInput.value;
       let command = this.refs.commandInput.value;
-      if(name!=="" && command!==""){
-        let a = new Snippet(name,command);
+      let a = new Snippet(name,command);
+      if(name!=="" && command!=="")
         a.save();
-      }
+
       this.refs.modal.hide();
+      this.state.snippetsArray.push(<SnippetComponent parent={this} key={a._key}  name={a._name} command={a._command}/>);
+      this.forceUpdate();
     }
     insertInput(input){
        this._parent.insertInput(input);
     }
-
     loadData(){
         let data = require("../../private/snippets.json");
 

@@ -26,9 +26,9 @@ var Snippet = exports.Snippet = function () {
 
     this._name = name;
     this._command = command;
-
+    this._key = this._snippetsJson.snippets.length + 1;
     this._snippetsJson.snippets.push({
-      key: this._snippetsJson.snippets.length + 1,
+      key: this._key,
       name: this._name,
       command: this._command
     });
