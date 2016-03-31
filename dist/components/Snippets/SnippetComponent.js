@@ -28,7 +28,7 @@ var SnippetComponent = exports.SnippetComponent = function (_React$Component) {
 
     _createClass(SnippetComponent, [{
         key: "handleClick",
-        value: function handleClick(evt) {
+        value: function handleClick() {
             this._parent.insertInput(this.refs.command.innerText);
         }
     }, {

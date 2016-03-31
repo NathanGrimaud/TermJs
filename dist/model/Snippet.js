@@ -1,42 +1,58 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.SnippetClass = undefined;
 
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//const React = require("react");
-var ReactDOM = require("react-dom");
-var pageLocation = process.cwd();
+var fs = require("fs");
 
-var SNIPPET = require(pageLocation + "/dist/components/SnippetComponent").SnippetComponent;
-var SNIPPETS_CONTAINER = require(pageLocation + "/dist/components/SnippetsContainer").SnippetsContainerComponent;
-var data = require(pageLocation + "/dist/private/snippets.json");
+var Snippet = exports.Snippet = function () {
+  /**
+   * The model to create, update and save a snippet
+   *
+   * @param {string} name
+   * @param {string} command
+   * @returns Snippet
+   */
 
-var SnippetClass = exports.SnippetClass = function SnippetClass(consoleInput, appContainer) {
-    var _this = this;
+  function Snippet(name, command) {
+    _classCallCheck(this, Snippet);
 
-    _classCallCheck(this, SnippetClass);
+    this._snippetsJson = require("../private/snippets.json");
 
-    this._snippetsContainer = document.createElement("div");
+    this._name = name;
+    this._command = command;
 
-    this._consoleInput = document.getElementById(consoleInput);
+    this._snippetsJson.snippets.push({
+      key: this._snippetsJson.snippets.length + 1,
+      name: this._name,
+      command: this._command
+    });
+  }
 
-    this._sinppetsInstance = ReactDOM.render(_react2.default.createElement(
-        SNIPPETS_CONTAINER,
-        null,
-        data.snippets.map(function (val) {
-            return _react2.default.createElement(SNIPPET, { key: val.key, _console: _this._consoleInput, name: val.name, command: val.command });
-        })
-    ), this._snippetsContainer);
+  _createClass(Snippet, [{
+    key: "save",
+    value: function save() {
 
-    appContainer.appendChild(this._snippetsContainer);
-};
+      console.log(require("../private/snippets.json"));
+
+      fs.writeFile("./dist/private/snippets.json", JSON.stringify(this._snippetsJson), function (err) {
+        if (err) throw err;
+        console.log(require("../private/snippets.json"));
+      });
+    }
+  }, {
+    key: "update",
+    value: function update(name, command) {
+
+      if (this._name !== name) this._name = name;
+      if (this._command !== command) this._command = command;
+    }
+  }]);
+
+  return Snippet;
+}();

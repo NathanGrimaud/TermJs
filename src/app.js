@@ -9,14 +9,6 @@ const ReactDOM = require("react-dom");
 
 const CONSOLE_COMPONENT = require(`./dist/components/Console/ConsoleComponent`).ConsoleComponent;
 
-/**
-* for react debuging
-
-const bw = require("electron").remote.BrowserWindow;
-bw.addDevToolsExtension(`./react-devtools/shells/chrome`);
-*/
-
-
 class Main {
 
     constructor() {
@@ -24,7 +16,7 @@ class Main {
     }
 
     loadConsole() {
-        ReactDOM.render(<CONSOLE_COMPONENT/>, this.appContainer)
+        ReactDOM.render(<CONSOLE_COMPONENT/>, this.appContainer);
     }
 }
 

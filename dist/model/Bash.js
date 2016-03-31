@@ -10,7 +10,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var spawn = require("cross-spawn").spawn;
 var exec = require("child_process").exec;
-var ConsoleOutputComponent = require("../components/ConsoleOutputComponent.js").ConsoleOutputComponent;
 
 /**
  * @class Bash
@@ -39,7 +38,7 @@ var Bash = exports.Bash = function () {
             process.chdir(destination);
         }
         /**
-        * terminal.isWindows : 
+        * terminal.isWindows :
         * return true if app is running on window
         */
 
@@ -60,7 +59,7 @@ var Bash = exports.Bash = function () {
                 var pid = this._runningCmd.pid;
 
                 if (!this.isWindows()) this._runningCmd.kill(pid);else {
-                    exec('taskkill /PID ' + this._runningCmd.pid + ' /T /F', function (err, stdout, stderr) {
+                    exec("taskkill /PID " + this._runningCmd.pid + " /T /F", function (err, stdout, stderr) {
                         console.log(err);
                         console.log(stdout);
                         console.log(stderr);
@@ -87,13 +86,13 @@ var Bash = exports.Bash = function () {
 
             this.insertOutput(backlog, "backlog");
 
-            if (comm === "cd") this.move(args[0]);else this.execCommand(comm, args).then(function (_) {
-                return console.log('done');
+            if (comm === "cd") this.move(args[0]);else this.execCommand(comm, args).then(function () {
+                return console.log("done");
             });
         }
 
         /**
-        * Terminal.execCommand : 
+        * Terminal.execCommand :
         * @param {String} comm - main command
         * @param {String[]} args - command arguments
         * execs a command , needs 2 params, cmd and arguments array

@@ -8,7 +8,7 @@ export class SnippetComponent extends React.Component {
 
        this._parent = props.parent;
     }
-    handleClick(evt) {      
+    handleClick() {
         this._parent.insertInput(this.refs.command.innerText);
     }
     render() {
@@ -20,4 +20,3 @@ export class SnippetComponent extends React.Component {
         );
     }
 }
-

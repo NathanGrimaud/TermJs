@@ -11,6 +11,10 @@ body {
 .appContainer {
   width: 100%;
 }
+.button {
+  padding: 10px;
+  border: 1px solid #212121;
+}
 /*
 
 Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>

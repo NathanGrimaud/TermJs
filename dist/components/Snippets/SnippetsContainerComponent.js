@@ -12,10 +12,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var pageLocation = process.cwd();
-
 var React = require("react");
-var SNIPPET = require("./SnippetComponent.js").SnippetComponent;
+var SnippetComponent = require("./SnippetComponent.js").SnippetComponent;
+var Snippet = require("../../model/Snippet.js").Snippet;
+var Modal = require("boron/FadeModal");
 
 var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (_React$Component) {
     _inherits(SnippetsContainerComponent, _React$Component);
@@ -34,6 +34,23 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
     }
 
     _createClass(SnippetsContainerComponent, [{
+        key: "showModal",
+        value: function showModal() {
+            this.refs.modal.show();
+        }
+    }, {
+        key: "hideModal",
+        value: function hideModal() {
+            console.log(this.refs.nameInput, this.refs.commandInput);
+            var name = this.refs.nameInput.value;
+            var command = this.refs.commandInput.value;
+            if (name !== "" && command !== "") {
+                var a = new Snippet(name, command);
+                a.save();
+            }
+            this.refs.modal.hide();
+        }
+    }, {
         key: "insertInput",
         value: function insertInput(input) {
             this._parent.insertInput(input);
@@ -45,9 +62,9 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
 
             var data = require("../../private/snippets.json");
 
-            [].forEach.call(data.snippets, function (value, index, array) {
+            [].forEach.call(data.snippets, function (value) {
 
-                _this2.state.snippetsArray.push(React.createElement(SNIPPET, { parent: _this2, key: value.key, name: value.name, command: value.command }));
+                _this2.state.snippetsArray.push(React.createElement(SnippetComponent, { parent: _this2, key: value.key, name: value.name, command: value.command }));
             });
         }
     }, {
@@ -70,10 +87,28 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
                     null,
                     React.createElement(
                         "div",
-                        { className: "snippetAdd", onClick: function onClick() {
-                                return _this3.onClick();
+                        { className: "snippetAdd button", onClick: function onClick() {
+                                return _this3.showModal();
                             } },
-                        " "
+                        " + "
+                    )
+                ),
+                React.createElement(
+                    Modal,
+                    { ref: "modal" },
+                    React.createElement(
+                        "h2",
+                        null,
+                        "New snippet"
+                    ),
+                    React.createElement("input", { ref: "nameInput", placeholder: "name", type: "text" }),
+                    React.createElement("input", { ref: "commandInput", placeholder: "command", type: "text" }),
+                    React.createElement(
+                        "button",
+                        { onClick: function onClick() {
+                                return _this3.hideModal();
+                            } },
+                        "Close"
                     )
                 )
             );

@@ -12,13 +12,6 @@ var ReactDOM = require("react-dom");
 
 var CONSOLE_COMPONENT = require("./dist/components/Console/ConsoleComponent").ConsoleComponent;
 
-/**
-* for react debuging
-
-const bw = require("electron").remote.BrowserWindow;
-bw.addDevToolsExtension(`./react-devtools/shells/chrome`);
-*/
-
 var Main = function () {
     function Main() {
         _classCallCheck(this, Main);
