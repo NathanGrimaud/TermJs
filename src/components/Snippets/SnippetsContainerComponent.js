@@ -4,6 +4,7 @@ const React = require("react");
 const SnippetComponent = require(`./SnippetComponent.js`).SnippetComponent;
 const Snippet = require("../../model/Snippet.js").Snippet;
 const Modal = require("boron/FadeModal");
+
 export class SnippetsContainerComponent extends React.Component {
 
     constructor(props) {
@@ -24,6 +25,7 @@ export class SnippetsContainerComponent extends React.Component {
       let name = this.refs.nameInput.value;
       let command = this.refs.commandInput.value;
       let a = new Snippet(name,command);
+
       if(name!=="" && command!=="")
         a.save();
 
@@ -56,7 +58,7 @@ export class SnippetsContainerComponent extends React.Component {
 
             <Modal ref="modal">
                    <h2>New snippet</h2>
-                   <input ref="nameInput" placeholder="name" type="text"/>
+                   <input ref="nameInput" placeholder="name" type="text" />
                    <input ref="commandInput" placeholder="command" type="text"/>
                    <button onClick={()=>this.hideModal()}>Close</button>
            </Modal>
