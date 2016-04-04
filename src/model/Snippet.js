@@ -1,6 +1,7 @@
 "use strict";
 
-let fs = require("fs");
+const fs = require("fs");
+const _ = require("lodash");
 
 export class Snippet {
   /**
@@ -8,35 +9,40 @@ export class Snippet {
    *
    * @param {string} name
    * @param {string} command
+   * @param {number} key
    * @returns Snippet
    */
-  constructor(name, command) {
-    this._snippetsJson = require("../private/snippets.json");
+  constructor(name, command , key) {
 
-    this._name = name;
-    this._command = command;
-    this._key = this._snippetsJson.snippets.length + 1;
+      this._snippetsJson = require("../private/snippets.json");
+      this._name = name;
+      this._command = command;
+
+      this._key = key === undefined ? this._snippetsJson.snippets.length + 1 : key;
+    }
+  pushNewSnippet(){
+
     this._snippetsJson.snippets.push({
       key: this._key,
       name: this._name,
       command: this._command
     });
-
+    this.save();
   }
-  save() {
 
-    console.log(require("../private/snippets.json"));
+  update(){
+
+    let snipIndex = _.findIndex(this._snippetsJson.snippets, (o) => { return o.key === this._key;});
+    let snip = {"command":this._command,"name":this._name,"key":this._key};
+    this._snippetsJson.snippets[snipIndex] = snip;
+    this.save();
+  }
+
+  save() {
 
     fs.writeFile("./dist/private/snippets.json",JSON.stringify(this._snippetsJson), function (err) {
             if (err) throw err;
             console.log(require("../private/snippets.json"));
         });
-  }
-  update(name, command) {
-
-    if (this._name !== name)
-      this._name = name;
-    if (this._command !== command)
-      this._command = command;
   }
 }

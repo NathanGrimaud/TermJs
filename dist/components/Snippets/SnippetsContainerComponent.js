@@ -44,11 +44,14 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
 
             var name = this.refs.nameInput.value;
             var command = this.refs.commandInput.value;
-            var a = new Snippet(name, command);
-            if (name !== "" && command !== "") a.save();
 
+            if (name !== "" && command !== "") {
+
+                var a = new Snippet(name, command);
+                a.save();
+                this.state.snippetsArray.push(React.createElement(SnippetComponent, { parent: this, key: a._key, name: a._name, command: a._command }));
+            }
             this.refs.modal.hide();
-            this.state.snippetsArray.push(React.createElement(SnippetComponent, { parent: this, key: a._key, name: a._name, command: a._command }));
             this.forceUpdate();
         }
     }, {
@@ -65,7 +68,7 @@ var SnippetsContainerComponent = exports.SnippetsContainerComponent = function (
 
             [].forEach.call(data.snippets, function (value) {
 
-                _this2.state.snippetsArray.push(React.createElement(SnippetComponent, { parent: _this2, key: value.key, name: value.name, command: value.command }));
+                _this2.state.snippetsArray.push(React.createElement(SnippetComponent, { parent: _this2, key: value.key, i: value.key, name: value.name, command: value.command }));
             });
         }
     }, {

@@ -13,7 +13,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = require("react");
-var fs = require('fs');
+var fs = require("fs");
 
 var BranchComponent = require("./BranchComponent.js").BranchComponent;
 var LeafComponent = require("./LeafComponent").LeafComponent;
@@ -27,39 +27,37 @@ var TreeViewComponent = exports.TreeViewComponent = function (_React$Component) 
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TreeViewComponent).call(this, props));
 
         _this._parent = props.parent;
-        _this.state = {
-            folders: _this.findFolders(process.cwd()),
-            files: _this.findFiles(process.cwd())
-        };
         return _this;
     }
 
     _createClass(TreeViewComponent, [{
         key: "makeLeaves",
-        value: function makeLeaves() {
-            return this.state.files.map(function (value, index, array) {
+        value: function makeLeaves(path) {
+            return this.findFiles(path).map(function (value, index) {
                 return React.createElement(LeafComponent, { name: value, key: index });
             });
         }
     }, {
         key: "makeBranches",
-        value: function makeBranches() {
-            return this.state.folders.map(function (value, index, array) {
-                return React.createElement(BranchComponent, { name: value, key: index });
+        value: function makeBranches(path) {
+            var _this2 = this;
+
+            return this.findFolders(path).map(function (value, index) {
+                return React.createElement(BranchComponent, { path: path, parent: _this2, name: value, key: index });
             });
         }
     }, {
         key: "findFolders",
         value: function findFolders(path) {
             return fs.readdirSync(path).filter(function (file) {
-                return fs.statSync(path + '/' + file).isDirectory();
+                return fs.statSync(path + "/" + file).isDirectory();
             });
         }
     }, {
         key: "findFiles",
         value: function findFiles(path) {
             return fs.readdirSync(path).filter(function (file) {
-                return fs.statSync(path + '/' + file).isFile();
+                return fs.statSync(path + "/" + file).isFile();
             });
         }
     }, {
@@ -68,8 +66,8 @@ var TreeViewComponent = exports.TreeViewComponent = function (_React$Component) 
             return React.createElement(
                 "div",
                 { className: "treeView" },
-                this.makeBranches(),
-                this.makeLeaves()
+                this.makeBranches(process.cwd()),
+                this.makeLeaves(process.cwd())
             );
         }
     }]);

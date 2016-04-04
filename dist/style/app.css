@@ -126,3 +126,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   color: green;
   opacity: 0.4;
 }
+.branch {
+  padding: 5px;
+  border: 1px solid #f5f5f5;
+}

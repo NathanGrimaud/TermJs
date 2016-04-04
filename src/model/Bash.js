@@ -13,7 +13,13 @@ export class Bash {
     constructor(console) {
         this._console = console;
     }
-
+  /**
+   * inserts an output to the console
+   *
+   * @param {string} data - the text to fill the output
+   * @param {string} className - the class added to the output
+   * @returns {void}
+   */
      insertOutput(data,className) {
         this._console.insertOutput(data,className);
     }
@@ -28,6 +34,11 @@ export class Bash {
 
         return /^win/.test(process.platform);
     }
+    /**
+     * stops the instance running command
+     *
+     * @returns
+     */
     stopCommand() {
 
         if (this._runningCmd !== null && this._runningCmd !== undefined) {
@@ -65,7 +76,6 @@ export class Bash {
 
         else
             this.execCommand(comm,args).then(()=>console.log("done"));
-
     }
 
     /**

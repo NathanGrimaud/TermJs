@@ -24,13 +24,14 @@ export class SnippetsContainerComponent extends React.Component {
 
       let name = this.refs.nameInput.value;
       let command = this.refs.commandInput.value;
-      let a = new Snippet(name,command);
 
-      if(name!=="" && command!=="")
+      if(name !== "" && command !== ""){
+
+        let a = new Snippet(name,command);
         a.save();
-
+        this.state.snippetsArray.push(<SnippetComponent parent={this} key={a._key}  name={a._name} command={a._command}/>);
+      }
       this.refs.modal.hide();
-      this.state.snippetsArray.push(<SnippetComponent parent={this} key={a._key}  name={a._name} command={a._command}/>);
       this.forceUpdate();
     }
     insertInput(input){
@@ -41,7 +42,7 @@ export class SnippetsContainerComponent extends React.Component {
 
         [].forEach.call(data.snippets,(value)=>{
 
-            this.state.snippetsArray.push(<SnippetComponent parent={this} key={value.key}  name={value.name} command={value.command}/>);
+            this.state.snippetsArray.push(<SnippetComponent parent={this} key={value.key} i={value.key} name={value.name} command={value.command}/>);
         });
     }
 

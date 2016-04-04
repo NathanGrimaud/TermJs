@@ -9,6 +9,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var fs = require("fs");
+var _ = require("lodash");
 
 var Snippet = exports.Snippet = function () {
   /**
@@ -16,41 +17,51 @@ var Snippet = exports.Snippet = function () {
    *
    * @param {string} name
    * @param {string} command
+   * @param {number} key
    * @returns Snippet
    */
 
-  function Snippet(name, command) {
+  function Snippet(name, command, key) {
     _classCallCheck(this, Snippet);
 
     this._snippetsJson = require("../private/snippets.json");
-
     this._name = name;
     this._command = command;
-    this._key = this._snippetsJson.snippets.length + 1;
-    this._snippetsJson.snippets.push({
-      key: this._key,
-      name: this._name,
-      command: this._command
-    });
+
+    this._key = key === undefined ? this._snippetsJson.snippets.length + 1 : key;
   }
 
   _createClass(Snippet, [{
+    key: "pushNewSnippet",
+    value: function pushNewSnippet() {
+
+      this._snippetsJson.snippets.push({
+        key: this._key,
+        name: this._name,
+        command: this._command
+      });
+      this.save();
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      var _this = this;
+
+      var snipIndex = _.findIndex(this._snippetsJson.snippets, function (o) {
+        return o.key === _this._key;
+      });
+      var snip = { "command": this._command, "name": this._name, "key": this._key };
+      this._snippetsJson.snippets[snipIndex] = snip;
+      this.save();
+    }
+  }, {
     key: "save",
     value: function save() {
-
-      console.log(require("../private/snippets.json"));
 
       fs.writeFile("./dist/private/snippets.json", JSON.stringify(this._snippetsJson), function (err) {
         if (err) throw err;
         console.log(require("../private/snippets.json"));
       });
-    }
-  }, {
-    key: "update",
-    value: function update(name, command) {
-
-      if (this._name !== name) this._name = name;
-      if (this._command !== command) this._command = command;
     }
   }]);
 

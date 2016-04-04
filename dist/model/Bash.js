@@ -26,6 +26,14 @@ var Bash = exports.Bash = function () {
 
         this._console = console;
     }
+    /**
+     * inserts an output to the console
+     *
+     * @param {string} data - the text to fill the output
+     * @param {string} className - the class added to the output
+     * @returns {void}
+     */
+
 
     _createClass(Bash, [{
         key: "insertOutput",
@@ -49,6 +57,12 @@ var Bash = exports.Bash = function () {
             return (/^win/.test(process.platform)
             );
         }
+        /**
+         * stops the instance running command
+         *
+         * @returns
+         */
+
     }, {
         key: "stopCommand",
         value: function stopCommand() {
