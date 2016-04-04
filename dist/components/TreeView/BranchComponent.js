@@ -68,7 +68,7 @@ var BranchComponent = exports.BranchComponent = function (_React$Component) {
     value: function handleClick() {
 
       if (this._beenClicked === false && this._isLoaded === false) {
-        var path = this.state.path + "\\" + this.state.name;
+        var path = this.state.path + "/" + this.state.name;
         this.loadChildren(path);
         this._isLoaded = true;
         this.forceUpdate();

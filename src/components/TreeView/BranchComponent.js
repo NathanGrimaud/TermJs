@@ -40,7 +40,7 @@ export class BranchComponent extends React.Component {
     handleClick(){
 
       if(this._beenClicked === false && this._isLoaded === false){
-        let path = this.state.path+"\\"+this.state.name;
+        let path = this.state.path+"/"+this.state.name;
         this.loadChildren(path);
         this._isLoaded = true;
         this.forceUpdate();
