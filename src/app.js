@@ -13,10 +13,12 @@ class Main {
 
     constructor() {
         this.appContainer = document.getElementById("app");
+        //const BrowserWindow = require('electron').remote.BrowserWindow;
+        //BrowserWindow.addDevToolsExtension('./react-devtools/shells/chrome');
     }
 
     loadConsole() {
-        ReactDOM.render(<CONSOLE_COMPONENT/>, this.appContainer);
+        ReactDOM.render(<CONSOLE_COMPONENT path={process.cwd()}/>, this.appContainer);
     }
 }
 

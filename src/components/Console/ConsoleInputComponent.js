@@ -17,21 +17,11 @@ export class ConsoleInputComponent extends React.Component {
         this._parent = props.parent;
         
         this.state = {
-            path: process.cwd(),
             inputText : "",
             currentLine: "",
             history: [],
             historyIndex: 0
         };
-    }
-    render() {
-
-        return (
-            <div className="inputWrapper" >
-                <span className="inputPath">{this.state.path + " > "} </span>
-                <div ref="input" onKeyDown={(evt) => this.handleTouch(evt) } className="inputDiv" contentEditable="True" id="ConsoleInput" type="text"/>
-            </div>
-        );
     }
     insertInput(input){      
         this.refs.input.textContent = input;
@@ -80,6 +70,15 @@ export class ConsoleInputComponent extends React.Component {
 
         this.state.path = path;
         this.forceUpdate();
+    }
+    render() {
+
+        return (
+            <div className="inputWrapper" >
+                <span className="inputPath">{ process.cwd() + " > "} </span>
+                <div ref="input" onKeyDown={(evt) => this.handleTouch(evt) } className="inputDiv" contentEditable="True" id="ConsoleInput" type="text"/>
+            </div>
+        );
     }
 
 }

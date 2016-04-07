@@ -5,7 +5,7 @@ export class Process {
     /**
      * class Process
      * @constructor
-     * @param {Console} term - the terminal instance the current term will use
+     * @param {ConsoleComponent} term - the terminal instance the current term will use
      */
     constructor(term) {
         this._console = term;
@@ -21,6 +21,7 @@ export class Process {
     stopCommand(){
         this._console.stopCommand();
     }
-
-
+    isWindows(){
+        return this._console.isWindows();
+    }
 }

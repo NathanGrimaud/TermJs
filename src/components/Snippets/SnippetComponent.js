@@ -3,7 +3,9 @@
 const React = require("react");
 const Modal = require("boron/FadeModal");
 const Snippet = require("../../model/Snippet").Snippet;
-
+/**
+ * class that represents a snippet
+ */
 export class SnippetComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -14,13 +16,21 @@ export class SnippetComponent extends React.Component {
           command: props.command
       };
     }
-
+    /**
+     * shows the modal window
+     */
     showModal(){
         this.refs.modal.show();
     }
+    /**
+     * hides the modal window
+     */
     hideModal(){
         this.refs.modal.hide();
     }
+    /**
+     * trigered when the update button is clicked
+     */
     updateModal(){
 
       this.state.name = this.refs.nameInput.value;
@@ -49,7 +59,6 @@ export class SnippetComponent extends React.Component {
                    <button onClick={()=>this.updateModal()}>Validate</button>
                    <button onClick={()=>this.hideModal()}>Close</button>
            </Modal>
-
         </div>
         );
     }

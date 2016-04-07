@@ -23,8 +23,9 @@ export class Bash {
      insertOutput(data,className) {
         this._console.insertOutput(data,className);
     }
-    move(destination){
+    move(destination, input){
         process.chdir(destination);
+        this._console.updatePath();
     }
     /**
     * terminal.isWindows :

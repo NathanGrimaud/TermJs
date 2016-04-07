@@ -15,10 +15,16 @@ export class ConsoleComponent extends React.Component {
         super(props);
         this.state = {
             key: 0,
+            path:props.path,
             outputs: [<ConsoleOutputComponent key="0"  console={this} text={"# Bienvenue dans le terminal"} />]
         };
-
         this._process = new Process(new Bash(this));
+    }
+    /**
+     * updates the input
+     */
+    updatePath(){
+        this.refs.ConsoleInputComponent.changePath(process.cwd());
     }
     /**
      * @method insertOutput - creates a new ConsoleOutput with the provided text
@@ -39,7 +45,7 @@ export class ConsoleComponent extends React.Component {
         return (
             <div className="consoleWrapper">
                 <div className="treeViewWrapper">
-                    <TreeViewComponent ref="treeView" parent={this} />
+                    <TreeViewComponent path={this.state.path} ref="treeView" parent={this} process={this._process} />
                 </div>
                 <div className="Console">
                     {this.state.outputs.map(output => output) }

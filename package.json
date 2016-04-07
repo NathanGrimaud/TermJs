@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d dist && lessc src/style/base.less dist/style/app.css",
+    "build": "babel src -d dist --source-maps inline && lessc src/style/base.less dist/style/app.css",
     "start": "npm run build && electron ."
   },
   "author": "",

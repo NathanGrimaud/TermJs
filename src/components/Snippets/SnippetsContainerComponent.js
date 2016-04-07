@@ -4,7 +4,9 @@ const React = require("react");
 const SnippetComponent = require(`./SnippetComponent.js`).SnippetComponent;
 const Snippet = require("../../model/Snippet.js").Snippet;
 const Modal = require("boron/FadeModal");
-
+/**
+ * class that wraps all the snippets
+ */
 export class SnippetsContainerComponent extends React.Component {
 
     constructor(props) {
@@ -16,10 +18,15 @@ export class SnippetsContainerComponent extends React.Component {
         this.loadData();
         this._parent = props.parent;
     }
-
+    /**
+     * shows the modal window
+     */
     showModal(){
         this.refs.modal.show();
     }
+    /**
+     * hides the modal window
+     */
     hideModal(){
 
       let name = this.refs.nameInput.value;
@@ -34,9 +41,17 @@ export class SnippetsContainerComponent extends React.Component {
       this.refs.modal.hide();
       this.forceUpdate();
     }
+    /**
+     * insert an output to the parent
+     * @param {string} input - the text that will be in the output component
+     */
     insertInput(input){
        this._parent.insertInput(input);
     }
+    /**
+     * creates the snippets components , from snippets.json
+     * @return {String[]} loadData
+     */
     loadData(){
         let data = require("../../private/snippets.json");
 
