@@ -1,15 +1,42 @@
 .treeViewWrapper {
-  
   display: inline-block;
   padding: 5px;
+  background-color: @inputBackground;   
+  width: 20%;
+  height: 100%;
 }
-.leaf {  
-  color: green;
+.treeView{
+    padding: 5px;
+}
+.leaf { 
+  display: inline-flex;
+  padding: 5px;
+  width: 100%;
+  cursor: initial;
 }
 .branch {
-  
+    width: 100%;
+    padding: 5px;
+    -webkit-transition: all .5s ease-in;
+    transition: all .5s ease-in;
+     cursor: pointer;    
+}
+.branch.notClicked:hover{
+   background-color: @inputBackgroundHover;   
 }
 //the div that cover branch name
 .branchName{
-   background-color: @inputBackground; 
+  @font-fammily:"Roboto Mono Thin";
+  font-weight: 500;
+  overflow:auto;
+  display: inline-flex;
+  width: 100%;
 }
+.children.shown{
+  display: block;
+  padding: 5px;
+}
+.children.hidden{
+  display: none;
+}
+.nameText{margin-left: 5px;}

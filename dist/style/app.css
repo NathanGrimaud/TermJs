@@ -1,6 +1,59 @@
 @font-face {
-  font-family: "Bitstream Vera Serif Bold";
-  src: "../font/RobotoMono-Thin.ttf";
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../../public/iconfont/MaterialIcons-Regular.eot");
+  /* For IE6-8 */
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url("../../public/iconfont/MaterialIcons-Regular.woff2") format('woff2'), url("../../public/iconfont/MaterialIcons-Regular.woff") format('woff'), url("../../public/iconfont/MaterialIcons-Regular.ttf") format('truetype');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+.md-16 {
+  font-size: 16px;
+}
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+.material-icons.md-light {
+  color: #ffffff;
+}
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
+@font-face {
+  font-family: "Roboto Mono Thin";
+  src: "../font/Roboto Mono Thin.ttf";
+}
+@font-face {
+  font-family: "Roboto Mono Light";
+  src: "../font/Roboto Mono Light.ttf";
+}
+html {
+  height: 100%;
+  width: 100%;
 }
 body {
   background-color: #212121;
@@ -8,13 +61,21 @@ body {
   font-size: 12px;
   font-family: "Roboto Mono Light";
   margin: 0px;
+  height: 100%;
+  width: 100%;
 }
 .appContainer {
   width: 100%;
 }
+#app {
+  height: 100%;
+}
 .button {
   padding: 10px;
   border: 1px solid #212121;
+}
+.consoleWrapper {
+  height: 100%;
 }
 /*
 
@@ -123,10 +184,41 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 .treeViewWrapper {
   display: inline-block;
   padding: 5px;
+  background-color: #263238;
+  width: 20%;
+  height: 100%;
+}
+.treeView {
+  padding: 5px;
 }
 .leaf {
-  color: green;
+  display: inline-flex;
+  padding: 5px;
+  width: 100%;
+  cursor: initial;
+}
+.branch {
+  width: 100%;
+  padding: 5px;
+  -webkit-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+  cursor: pointer;
+}
+.branch.notClicked:hover {
+  background-color: #37474F;
 }
 .branchName {
-  background-color: #263238;
+  font-weight: 500;
+  overflow: auto;
+  display: inline-flex;
+}
+.children.shown {
+  display: block;
+  padding: 5px;
+}
+.children.hidden {
+  display: none;
+}
+.nameText {
+  margin-left: 5px;
 }

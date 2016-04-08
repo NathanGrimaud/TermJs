@@ -15,7 +15,10 @@ export class LeafComponent extends React.Component {
     }   
     render() {
         return (
-            <div className="leaf">{this.props.name}</div>
+            <div className="leaf">
+             <i ref="icon" className="material-icons md-16 md-light" >description</i>
+              <span className="nameText">{this.props.name}</span>
+            </div>
         );
     }
 }

@@ -11,12 +11,17 @@ const LeafComponent = require("./LeafComponent").LeafComponent;
 export class TreeViewComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            path : props.path
-        }
         this._parent = props.parent;
         this._process = props.process;
-        
+        this._fullPath = props.path;
+    }
+    getName(){
+        let path = this._fullPath.split("\\");
+        return path[path.length-1];
+    }
+    getPath(){                        
+        let path = this._fullPath.split("\\");       
+        return path.filter((value,index)=>index !== path.length-1).join("\\");
     }
     /**
      * returns an array of LeafComponent
@@ -60,8 +65,12 @@ export class TreeViewComponent extends React.Component {
     render() {
         return (
             <div className="treeView">
-                {this.makeBranches(this.state.path)}
-                {this.makeLeaves(this.state.path)}
+                 <BranchComponent 
+                 path={this.getPath()} 
+                 process={this._process} 
+                 parent={this} 
+                 name={this.getName()} 
+                 key={-1} /> 
             </div>
         );
     }
