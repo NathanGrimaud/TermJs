@@ -1,0 +1,1 @@
+{"snippets":[{"key":"1","name":"ping-google","command":"ping 8.8.8.8"},{"key":"2","name":"npm build","command":"npm run build"},{"key":"3","name":"npm start","command":"npm start"},{"key":"4","name":"infinite ping","command":"ping 8.8.8.8 -t"},{"command":"print \"salut\" -lol","name":"SALUT","key":5}]}

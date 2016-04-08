@@ -14,7 +14,7 @@ export class Snippet {
    */
   constructor(name, command , key) {
 
-      this._snippetsJson = require("../private/snippets.json");
+      this._snippetsJson = require("../../private/snippets.json");
       this._name = name;
       this._command = command;
 
@@ -40,9 +40,8 @@ export class Snippet {
 
   save() {
 
-    fs.writeFile("./dist/private/snippets.json",JSON.stringify(this._snippetsJson), function (err) {
+    fs.writeFile("./private/snippets.json",JSON.stringify(this._snippetsJson), function (err) {
             if (err) throw err;
-            console.log(require("../private/snippets.json"));
         });
   }
 }

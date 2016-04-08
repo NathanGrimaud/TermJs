@@ -53,7 +53,7 @@ export class SnippetsContainerComponent extends React.Component {
      * @return {String[]} loadData
      */
     loadData(){
-        let data = require("../../private/snippets.json");
+        let data = require("../../../private/snippets.json");
 
         [].forEach.call(data.snippets,(value)=>{
 
