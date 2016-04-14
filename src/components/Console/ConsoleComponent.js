@@ -13,11 +13,9 @@ export class ConsoleComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            key: 0,
-            path:props.path,
-            outputs: [<ConsoleOutputComponent key="0"  console={this} text={"# Bienvenue dans le terminal"} />]
-        };
+        this._key=0;
+        this._path = props.path;
+        this._outputs = [<ConsoleOutputComponent key="0"  console={this} text={"# Bienvenue dans le terminal"} />];
         this._process = new Process(new Bash(this));
     }
     /**
@@ -32,8 +30,8 @@ export class ConsoleComponent extends React.Component {
      * @param {String} className - the string to give class to the component
      */
     insertOutput(text, className) {
-        this.state.key += 1;
-        this.state.outputs.push(<ConsoleOutputComponent key = {this.state.key}  console={this} className={className} text={text.toString() } />);
+        this._key += 1;
+        this._outputs.push(<ConsoleOutputComponent key = {this._key}  console={this} className={className} text={text.toString() } />);
         this.forceUpdate();
     }
 
@@ -45,10 +43,10 @@ export class ConsoleComponent extends React.Component {
         return (
             <div className="consoleWrapper">
                 <div className="treeViewWrapper">
-                    <TreeViewComponent path={this.state.path} ref="treeView" parent={this} process={this._process} />
+                    <TreeViewComponent path={this._path} ref="treeView" parent={this} process={this._process} />
                 </div>
                 <div className="Console">
-                    {this.state.outputs.map(output => output) }
+                    {this._outputs.map(output => output) }
                     <ConsoleInputComponent ref="ConsoleInputComponent" parent={this} process={this._process}/>
                 </div>
                 <SnippetsContainerComponent parent={this} process={this._process}/>

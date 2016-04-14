@@ -10,11 +10,9 @@ export class SnippetComponent extends React.Component {
     constructor(props) {
         super(props);
         this._parent = props.parent;
-        this.state = {
-          key: props.i,
-          name: props.name,
-          command: props.command
-      };
+        this._key= props.i;
+        this._name= props.name;
+        this._command= props.command;
     }
     /**
      * shows the modal window
@@ -33,9 +31,9 @@ export class SnippetComponent extends React.Component {
      */
     updateModal(){
 
-      this.state.name = this.refs.nameInput.value;
-      this.state.command = this.refs.commandInput.value;
-      let a = new Snippet( this.state.name,this.state.command,this.state.key);
+      this._name = this.refs.nameInput.value;
+      this._command = this.refs.commandInput.value;
+      let a = new Snippet( this._name,this._command,this._key);
       a.update();
       this.refs.modal.hide();
       this.forceUpdate();
@@ -46,17 +44,17 @@ export class SnippetComponent extends React.Component {
     render() {
         return (
           <div className="snippet">
-            <div onClick={evt=>this.handleClick(evt)} key="{this.state.key}">
-                <span ref="name"  className="name">{this.state.name}: </span>
-                <span ref="command" className="command">{this.state.command}</span>
+            <div onClick={evt=>this.handleClick(evt)} key="{this._key}">
+                <span ref="name"  className="name">{this._name}: </span>
+                <span ref="command" className="command">{this._command}</span>
             </div>
             <i
             className="material-icons mdl-button mdl-button--icon mdl-button--colored mdl-js-button md-16" //
             onClick={()=>this.showModal()}>edit</i>
             <Modal ref="modal">
                    <h2>New snippet</h2>
-                   <input ref="nameInput" type="text"defaultValue={this.state.name} />
-                   <input ref="commandInput" type="text" defaultValue={this.state.command}/>
+                   <input ref="nameInput" type="text"defaultValue={this._name} />
+                   <input ref="commandInput" type="text" defaultValue={this._command}/>
                    <button onClick={()=>this.updateModal()}>Validate</button>
                    <button onClick={()=>this.hideModal()}>Close</button>
            </Modal>

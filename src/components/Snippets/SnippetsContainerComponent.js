@@ -12,11 +12,9 @@ export class SnippetsContainerComponent extends React.Component {
     constructor(props) {
 
         super(props);
-        this.state = {
-            snippetsArray:[]
-        };
-        this.loadData();
+        this._snippetsArray=[];
         this._parent = props.parent;
+        this.loadData();
     }
     /**
      * shows the modal window
@@ -26,7 +24,7 @@ export class SnippetsContainerComponent extends React.Component {
     }
     /**
      * hides the modal window
-     */
+     */sdqsd
     hideModal(){
 
       let name = this.refs.nameInput.value;
@@ -36,10 +34,11 @@ export class SnippetsContainerComponent extends React.Component {
 
         let a = new Snippet(name,command);
         a.save();
-        this.state.snippetsArray.push(<SnippetComponent parent={this} key={a._key}  name={a._name} command={a._command}/>);
+        this._snippetsArray.push(<SnippetComponent parent={this} key={a._key}  name={a._name} command={a._command}/>);
       }
       this.refs.modal.hide();
       this.forceUpdate();
+
     }
     /**
      * insert an output to the parent
@@ -57,8 +56,9 @@ export class SnippetsContainerComponent extends React.Component {
 
         [].forEach.call(data.snippets,(value)=>{
 
-            this.state.snippetsArray.push(<SnippetComponent parent={this} key={value.key} i={value.key} name={value.name} command={value.command}/>);
+            this._snippetsArray.push(<SnippetComponent parent={this} key={value.key} i={value.key} name={value.name} command={value.command}/>);
         });
+
     }
 
     render() {
@@ -66,7 +66,7 @@ export class SnippetsContainerComponent extends React.Component {
         return (
         <div className = "snippetsWrapper">
             <div className = "snippets"> {
-                this.state.snippetsArray
+                this._snippetsArray
             } </div>
             <div>
                 <div className="snippetAdd button" onClick={()=>this.showModal()}>

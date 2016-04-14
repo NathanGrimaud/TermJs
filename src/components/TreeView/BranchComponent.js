@@ -14,11 +14,10 @@ export class BranchComponent extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = {
-      children: [],
-      path: props.path,
-      name: props.name
-    };
+
+    this._children= [];
+    this._path=props.path;
+    this._name= props.name;
     this._parent = props.parent;
     this._beenClicked = false;
     this._process = props.process;
@@ -28,7 +27,6 @@ export class BranchComponent extends React.Component {
    * shows the targeted branch
    */
   show() {
-    console.log(this.refs.icon.innerHTML);
     this.refs.icon.innerHTML = "folder_open";
     this.refs.branchWrapper.className = "branch";
     this.refs.children.className = "children shown";
@@ -38,26 +36,25 @@ export class BranchComponent extends React.Component {
    * hides the tageted branch
    */
   hide() {
-    console.log(this.refs.icon.innerHTML);
     this.refs.branchWrapper.className = "branch notClicked";
     this.refs.icon.innerHTML = "folder";
     this.refs.children.className = "children hidden";
     this.forceUpdate();
   }
   /**
-   * get all the children elements, fill this.state.children with it
+   * get all the children elements, fill this._children with it
    * @param {string} path - the path of the children
    */
   loadChildren(path) {
     let index = 0;
     this._parent.findFolders(path).map((value) => {
-      this.state.children.push(<BranchComponent path={path} process={this._process} parent={this._parent} name={value} key={index} />);
+      this._children.push(<BranchComponent path={path} process={this._process} parent={this._parent} name={value} key={index} />);
       index++;
     });
 
 
     this._parent.findFiles(path).map((value) => {
-      this.state.children.push(<LeafComponent name={value} key={index} />);
+      this._children.push(<LeafComponent name={value} key={index} />);
       index++;
     });
 
@@ -69,7 +66,7 @@ export class BranchComponent extends React.Component {
    * click event on a branch
    */
   handleClick() {
-    let path = this.state.path + "/" + this.state.name;
+    let path = this._path + "/" + this._name;
     if (this._beenClicked === false && this._isLoaded === false) {
 
       this.loadChildren(path);
@@ -104,7 +101,7 @@ export class BranchComponent extends React.Component {
           <span className="nameText"> {this.props.name}</span>
         </div>
         <div  className="children" ref="children">
-          {this.state.children}
+          {this._children}
         </div>
       </div>
     );

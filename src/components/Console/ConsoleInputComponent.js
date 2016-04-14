@@ -2,7 +2,7 @@
 
 const React = require("react");
 
-const ConsoleOutputComponent = require(`./ConsoleOutputComponent.js`).ConsoleOutputComponent;
+//const ConsoleOutputComponent = require(`./ConsoleOutputComponent.js`).ConsoleOutputComponent;
 
 export class ConsoleInputComponent extends React.Component {
 
@@ -15,13 +15,11 @@ export class ConsoleInputComponent extends React.Component {
         super(props);
         this._process = props.process;
         this._parent = props.parent;
+        this._inputText = "";
+        this._currentLine= "";
+        this._history= [];
+        this._historyIndex= 0;
 
-        this.state = {
-            inputText : "",
-            currentLine: "",
-            history: [],
-            historyIndex: 0
-        };
     }
     insertInput(input){
         this.refs.input.textContent = input;
@@ -49,18 +47,18 @@ export class ConsoleInputComponent extends React.Component {
     }
     handleArrowTouch(i) {
 
-        let nextIndex = this.state.historyIndex + i;
-        if (( nextIndex >= 0) && ( nextIndex <= this.state.history.length)) {
+        let nextIndex = this._historyIndex + i;
+        if (( nextIndex >= 0) && ( nextIndex <= this._history.length)) {
 
-            this.state.historyIndex += i;
-            this.refs.input.textContent = this.state.history[nextIndex];
+            this._historyIndex += i;
+            this.refs.input.textContent = this._history[nextIndex];
         }
     }
     handleEnterTouch(evt) {
 
         let command = evt.target.textContent;
-        this.state.historyIndex += 1;
-        this.state.history.push(command);
+        this._historyIndex += 1;
+        this._history.push(command);
         evt.target.textContent = "";
         this.changePath(process.cwd());
         this._process.exec(command);
@@ -68,7 +66,7 @@ export class ConsoleInputComponent extends React.Component {
     }
     changePath(path) {
 
-        this.state.path = path;
+        this._path = path;
         this.forceUpdate();
     }
     render() {

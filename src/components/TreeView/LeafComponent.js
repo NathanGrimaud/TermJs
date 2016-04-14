@@ -11,8 +11,8 @@ export class LeafComponent extends React.Component {
      * @param {Object} props - contains {parent , name}
      */
     constructor(props) {
-        super(props);       
-    }   
+        super(props);
+    }
     render() {
         return (
             <div className="leaf">
