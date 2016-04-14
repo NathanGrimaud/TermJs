@@ -24,7 +24,7 @@ export class SnippetsContainerComponent extends React.Component {
     }
     /**
      * hides the modal window
-     */sdqsd
+     */
     hideModal(){
 
       let name = this.refs.nameInput.value;
