@@ -1,6 +1,4 @@
 "use strict";
-
-
 export class Process {
     /**
      * class Process
@@ -12,7 +10,7 @@ export class Process {
     }
     /**
      * @function Process.exec
-     * @param {String} command 
+     * @param {String} command
      * - the command that will be sent to the terminal instance
      */
     exec(command) {
@@ -20,8 +18,5 @@ export class Process {
     }
     stopCommand(){
         this._console.stopCommand();
-    }
-    isWindows(){
-        return this._console.isWindows();
     }
 }

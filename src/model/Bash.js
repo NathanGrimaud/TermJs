@@ -1,7 +1,8 @@
 "use strict";
 const spawn = require("cross-spawn").spawn;
 const exec = require("child_process").exec;
-
+const Search = require("./Search.js").Search;
+const isWindows = require("../tools.js").isWindows;
 /**
  * @class Bash
  */
@@ -12,6 +13,7 @@ export class Bash {
      */
     constructor(console) {
         this._console = console;
+        this._search = new Search("http://google.com");
     }
   /**
    * inserts an output to the console
@@ -27,14 +29,7 @@ export class Bash {
         process.chdir(destination);
         this._console.updatePath();
     }
-    /**
-    * terminal.isWindows :
-    * return true if app is running on window
-    */
-    isWindows() {
 
-        return /^win/.test(process.platform);
-    }
     /**
      * stops the instance running command
      *
@@ -47,7 +42,7 @@ export class Bash {
             this._runningCmd.stdin.pause();
             let pid = this._runningCmd.pid;
 
-            if (!this.isWindows())
+            if (!isWindows())
                 this._runningCmd.kill(pid);
             else{
                exec("taskkill /PID " + this._runningCmd.pid + " /T /F", (err, stdout, stderr) => {
@@ -74,11 +69,15 @@ export class Bash {
 
         if(comm === "cd")
             this.move(args[0]);
-
+        else if(comm === "google")
+            this.search(args.join(" "));
         else
             this.execCommand(comm,args).then(()=>console.log("done"));
     }
-
+    search(keyWorkds){
+        let s = this._search.search(keyWorkds);
+        this.insertOutput(s);
+    }
     /**
     * Terminal.execCommand :
     * @param {String} comm - main command

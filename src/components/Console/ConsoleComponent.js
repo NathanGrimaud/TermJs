@@ -33,7 +33,7 @@ export class ConsoleComponent extends React.Component {
      */
     insertOutput(text, className) {
         this.state.key += 1;
-        this.state.outputs.push(<ConsoleOutputComponent key = {this.state.key}  console={this} className={className} text={text.toString() } />)
+        this.state.outputs.push(<ConsoleOutputComponent key = {this.state.key}  console={this} className={className} text={text.toString() } />);
         this.forceUpdate();
     }
 

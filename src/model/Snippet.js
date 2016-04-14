@@ -12,15 +12,15 @@ export class Snippet {
    * @param {number} key
    * @returns Snippet
    */
-  constructor(name, command , key) {
+  constructor(name, command, key) {
 
-      this._snippetsJson = require("../../private/snippets.json");
-      this._name = name;
-      this._command = command;
-
-      this._key = key === undefined ? this._snippetsJson.snippets.length + 1 : key;
-    }
-  pushNewSnippet(){
+    this._snippetsJson = require("../../private/snippets.json");
+    this._name = name;
+    this._command = command;
+    this._path = process.cwd();
+    this._key = key === undefined ? this._snippetsJson.snippets.length + 1 : key;
+  }
+  pushNewSnippet() {
 
     this._snippetsJson.snippets.push({
       key: this._key,
@@ -30,18 +30,21 @@ export class Snippet {
     this.save();
   }
 
-  update(){
+  update() {
 
-    let snipIndex = _.findIndex(this._snippetsJson.snippets, (o) => { return o.key === this._key;});
-    let snip = {"command":this._command,"name":this._name,"key":this._key};
+    let snipIndex = _.findIndex(this._snippetsJson.snippets, (o) => { return o.key === this._key; });
+    let snip = { "command": this._command, "name": this._name, "key": this._key };
     this._snippetsJson.snippets[snipIndex] = snip;
     this.save();
   }
 
   save() {
-
-    fs.writeFile("./private/snippets.json",JSON.stringify(this._snippetsJson), function (err) {
-            if (err) throw err;
-        });
+    /**
+     * writeFile uses node instance path, not file path
+     */
+    console.log(this._path)
+    fs.writeFile(this._path + "/private/snippets.json", JSON.stringify(this._snippetsJson), function (err) {
+      if (err) throw err;
+    });
   }
 }

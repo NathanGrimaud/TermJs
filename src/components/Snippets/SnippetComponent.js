@@ -50,9 +50,9 @@ export class SnippetComponent extends React.Component {
                 <span ref="name"  className="name">{this.state.name}: </span>
                 <span ref="command" className="command">{this.state.command}</span>
             </div>
-            <i 
+            <i
             className="material-icons mdl-button mdl-button--icon mdl-button--colored mdl-js-button md-16" //
-            onClick={()=>this.showModal()}>edit</i>           
+            onClick={()=>this.showModal()}>edit</i>
             <Modal ref="modal">
                    <h2>New snippet</h2>
                    <input ref="nameInput" type="text"defaultValue={this.state.name} />

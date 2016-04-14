@@ -150,6 +150,14 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 .hljs-strong {
   font-weight: bold;
 }
+.snippetsWrapper {
+  width: 20% ;
+  overflow: auto;
+  padding: 5px;
+}
+.snippet {
+  display: inline-block;
+}
 .inputWrapper {
   background-color: #263238;
   display: inline-flex;
@@ -178,7 +186,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   padding-left: 5px;
 }
 .Console {
-  width: 100%;
+  width: 60%;
 }
 .treeViewWrapper {
   display: inline-block;

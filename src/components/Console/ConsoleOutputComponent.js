@@ -9,7 +9,7 @@ export class ConsoleOutputComponent extends React.Component {
         super(props);
     }
     render() {
-        var className = `bash ${this.props.className}`;
+        let className = `bash ${this.props.className}`;
         return (
             <HIGHLIGHT className= {className}>
                 {this.props.text}

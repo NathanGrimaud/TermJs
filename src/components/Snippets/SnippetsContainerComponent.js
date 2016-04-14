@@ -69,7 +69,8 @@ export class SnippetsContainerComponent extends React.Component {
                 this.state.snippetsArray
             } </div>
             <div>
-                <div className="snippetAdd button" onClick={()=>this.showModal()}> + </div>
+                <div className="snippetAdd button" onClick={()=>this.showModal()}>
+                <i className="material-icons md-light md-16"> add </i></div>
             </div>
 
             <Modal ref="modal">

@@ -15,7 +15,7 @@ export class ConsoleInputComponent extends React.Component {
         super(props);
         this._process = props.process;
         this._parent = props.parent;
-        
+
         this.state = {
             inputText : "",
             currentLine: "",
@@ -23,26 +23,26 @@ export class ConsoleInputComponent extends React.Component {
             historyIndex: 0
         };
     }
-    insertInput(input){      
+    insertInput(input){
         this.refs.input.textContent = input;
     }
     handleTouch(evt) {
-        
+
         if (evt.key === "Enter")
-            this.handleEnterTouch(evt)
+            this.handleEnterTouch(evt);
 
         else if (evt.key === "ArrowUp")
             this.handleArrowTouch(-1);
 
         else if (evt.key === "ArrowDown")
             this.handleArrowTouch(+1);
-        // c = 67    
+        // c = 67
         else if (evt.keyCode === 67 && evt.ctrlKey)
             this.handleCtrlCTouch();
 
     }
-    handleCtrlCTouch(){      
-        
+    handleCtrlCTouch(){
+
         this.refs.input.textContent = "";
         this._parent.insertOutput("command stopped by keyboard");
         this._process.stopCommand();
@@ -51,14 +51,14 @@ export class ConsoleInputComponent extends React.Component {
 
         let nextIndex = this.state.historyIndex + i;
         if (( nextIndex >= 0) && ( nextIndex <= this.state.history.length)) {
-            
+
             this.state.historyIndex += i;
             this.refs.input.textContent = this.state.history[nextIndex];
         }
     }
     handleEnterTouch(evt) {
-        
-        let command = evt.target.textContent;  
+
+        let command = evt.target.textContent;
         this.state.historyIndex += 1;
         this.state.history.push(command);
         evt.target.textContent = "";

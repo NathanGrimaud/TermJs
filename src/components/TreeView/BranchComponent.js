@@ -3,6 +3,7 @@
 
 const React = require("react");
 const LeafComponent = require("./LeafComponent").LeafComponent;
+const isWindows = require("../../tools.js").isWindows;
 /**
  * the representiation of a directory in the tree view
  */
@@ -38,7 +39,7 @@ export class BranchComponent extends React.Component {
    */
   hide() {
     console.log(this.refs.icon.innerHTML);
-    this.refs.branchWrapper.className = "branch notClicked"
+    this.refs.branchWrapper.className = "branch notClicked";
     this.refs.icon.innerHTML = "folder";
     this.refs.children.className = "children hidden";
     this.forceUpdate();
@@ -88,7 +89,7 @@ export class BranchComponent extends React.Component {
      * needs to build a regex because with a char, replace only do one iteration
      */
 
-    let nextPath = this._process.isWindows() ? path.replace(new RegExp("/", "g"), "\\") : path;
+    let nextPath = isWindows() ? path.replace(new RegExp("/", "g"), "\\") : path;
 
     if (process.cwd() !== nextPath)
       this.move(path);
