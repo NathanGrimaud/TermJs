@@ -40,6 +40,11 @@ export class ConsoleInputComponent extends React.Component {
         // c = 67 so whe can handle CTRL-C
         else if (evt.keyCode === 67 && evt.ctrlKey)
             this.handleCtrlCTouch();
+        // matching all other possibilities
+        else{
+          let currentText = this.refs.input.textContent;
+          this.refs.hint.innerText = currentText + " : "+this.getPossibleCompletion(currentText);
+        }
 
     }
     handleTabTouch(){
@@ -72,8 +77,9 @@ export class ConsoleInputComponent extends React.Component {
 
     }
     getPossibleCompletion(currentText){
+      let commandNames = this._parent.getSnippets().map((val)=> val.props.name);
       let commands = this._parent.getSnippets().map((val)=> val.props.command);
-      return commands.filter((val)=>val.indexOf(currentText)>-1)[0];
+      return commands.filter((val,index)=>commandNames[index].indexOf(currentText)>-1)[0];
     }
     changePath(path) {
 
@@ -86,6 +92,7 @@ export class ConsoleInputComponent extends React.Component {
             <div className="inputWrapper" >
                 <span className="inputPath">{ process.cwd() + " > "} </span>
                 <div ref="input" onKeyDown={(evt) => this.handleTouch(evt) } className="inputDiv" contentEditable="True" id="ConsoleInput" type="text"/>
+                <div ref="hint"></div>
             </div>
         );
     }
