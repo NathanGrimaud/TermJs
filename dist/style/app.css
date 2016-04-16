@@ -159,7 +159,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   display: inline-block;
 }
 .inputWrapper {
-  background-color: #263238;
+  background-color: #424242;
   display: inline-flex;
   width: 100%;
   padding: 5px;
@@ -191,7 +191,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 .treeViewWrapper {
   display: inline-block;
   padding: 5px;
-  background-color: #263238;
+  background-color: #424242;
   width: 20%;
   height: 100%;
   overflow: auto;
@@ -213,7 +213,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   cursor: pointer;
 }
 .branch.notClicked:hover {
-  background-color: #37474F;
+  background-color: #424242;
 }
 .branchName {
   font-weight: 500;

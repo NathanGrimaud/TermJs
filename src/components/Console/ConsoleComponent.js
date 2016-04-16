@@ -35,7 +35,6 @@ export class ConsoleComponent extends React.Component {
         this.forceUpdate();
     }
     getSnippets(){
-            console.log(this.refs);
       return this.refs.snippets.getSnippets();
     }
     insertInput(input){
