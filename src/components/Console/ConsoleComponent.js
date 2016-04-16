@@ -34,7 +34,10 @@ export class ConsoleComponent extends React.Component {
         this._outputs.push(<ConsoleOutputComponent key = {this._key}  console={this} className={className} text={text.toString() } />);
         this.forceUpdate();
     }
-
+    getSnippets(){
+            console.log(this.refs);
+      return this.refs.snippets.getSnippets();
+    }
     insertInput(input){
         this.refs.ConsoleInputComponent.insertInput(input);
     }
@@ -49,7 +52,7 @@ export class ConsoleComponent extends React.Component {
                     {this._outputs.map(output => output) }
                     <ConsoleInputComponent ref="ConsoleInputComponent" parent={this} process={this._process}/>
                 </div>
-                <SnippetsContainerComponent parent={this} process={this._process}/>
+                <SnippetsContainerComponent ref="snippets" parent={this} process={this._process}/>
             </div>
 
         );

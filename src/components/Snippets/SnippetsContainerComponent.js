@@ -19,6 +19,9 @@ export class SnippetsContainerComponent extends React.Component {
     /**
      * shows the modal window
      */
+     getSnippets(){
+       return this._snippetsArray;
+     }
     showModal(){
         this.refs.modal.show();
     }
@@ -54,11 +57,9 @@ export class SnippetsContainerComponent extends React.Component {
     loadData(){
         let data = require("../../../private/snippets.json");
 
-        [].forEach.call(data.snippets,(value)=>{
-
-            this._snippetsArray.push(<SnippetComponent parent={this} key={value.key} i={value.key} name={value.name} command={value.command}/>);
+        this._snippetsArray = [].map.call(data.snippets,(value)=>{
+          return <SnippetComponent parent={this} key={value.key} i={value.key} name={value.name} command={value.command}/>;
         });
-
     }
 
     render() {

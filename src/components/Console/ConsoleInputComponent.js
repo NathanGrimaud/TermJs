@@ -19,7 +19,7 @@ export class ConsoleInputComponent extends React.Component {
         this._currentLine= "";
         this._history= [];
         this._historyIndex= 0;
-
+        //this._snippetsArray = this._parent.getSnippets();
     }
     insertInput(input){
         this.refs.input.textContent = input;
@@ -29,15 +29,22 @@ export class ConsoleInputComponent extends React.Component {
         if (evt.key === "Enter")
             this.handleEnterTouch(evt);
 
+        else if (evt.key === "Tab")
+            this.handleTabTouch(evt);
+
         else if (evt.key === "ArrowUp")
             this.handleArrowTouch(-1);
 
         else if (evt.key === "ArrowDown")
             this.handleArrowTouch(+1);
-        // c = 67
+        // c = 67 so whe can handle CTRL-C
         else if (evt.keyCode === 67 && evt.ctrlKey)
             this.handleCtrlCTouch();
 
+    }
+    handleTabTouch(){
+        let currentText = this.refs.input.textContent;
+        this.insertInput(this.getPossibleCompletion(currentText));
     }
     handleCtrlCTouch(){
 
@@ -63,6 +70,10 @@ export class ConsoleInputComponent extends React.Component {
         this.changePath(process.cwd());
         this._process.exec(command);
 
+    }
+    getPossibleCompletion(currentText){
+      let commands = this._parent.getSnippets().map((val)=> val.props.command);
+      return commands.filter((val)=>val.indexOf(currentText)>-1)[0];
     }
     changePath(path) {
 
