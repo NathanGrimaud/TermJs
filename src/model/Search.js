@@ -1,9 +1,10 @@
+"use strict";
 export class Search{
-    constructor(url){
-        this._searchUrl = url;
+    constructor(engine){
+        this._engine = engine;
+        console.log(this._engine);
     }
-    search(keyWords){
-        let results = this._searchUrl;
-        return results + " : " + keyWords;
+    search(keyWords,callBack){
+        callBack("Sorry, this feature isn\'t availiable yet :/");
     }
 }

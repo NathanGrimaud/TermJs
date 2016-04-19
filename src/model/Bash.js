@@ -13,7 +13,7 @@ export class Bash {
      */
     constructor(console) {
         this._console = console;
-        this._search = new Search("http://google.com");
+        this._search = new Search();
     }
   /**
    * inserts an output to the console
@@ -25,7 +25,7 @@ export class Bash {
      insertOutput(data,className) {
         this._console.insertOutput(data,className);
     }
-    move(destination, input){
+    move(destination){
         process.chdir(destination);
         this._console.updatePath();
     }
@@ -75,8 +75,9 @@ export class Bash {
             this.execCommand(comm,args).then(()=>console.log("done"));
     }
     search(keyWorkds){
-        let s = this._search.search(keyWorkds);
-        this.insertOutput(s);
+        this._search.search(keyWorkds,(res)=>{
+            this.insertOutput(res);
+        });
     }
     /**
     * Terminal.execCommand :
